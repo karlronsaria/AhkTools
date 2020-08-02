@@ -1,0 +1,11 @@
+box(name, value) {
+	MsgBox(name ":`r`n`r`n" value)
+}
+
+assert(operation, input, expected, actual) {
+	MsgBox(
+		operation "('" input "')"
+		"`r`n`r`nExpected: " expected
+		"`r`n`r`nActual: " actual
+	)
+}

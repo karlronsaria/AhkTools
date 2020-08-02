@@ -1,0 +1,34 @@
+#Include %A_ScriptDir%\Debug.ahk2
+
+#Include %A_ScriptDir%\..\external\SQLiteDB.ahk2
+#Include %A_ScriptDir%\..\lib\Monitor.ahk2
+#Include %A_ScriptDir%\..\lib\Form.ahk2
+#Include %A_ScriptDir%\..\map\Clips-HkMap.ahk2
+#Include %A_ScriptDir%\..\lib\Date.ahk2
+
+
+; db := Clips.NewDefault()
+; 
+; box("Clip 1", db[1])
+; 
+; db[6] := "Last Recorded Time: " Dates.GetPrettyTime()
+; 
+; box("Clip 6", db[6])
+; 
+; A_Clipboard := db[2]
+
+
+box("Clip 1", Clips[1])
+
+Clips[6] := "Last Recorded Time: " Dates.GetPrettyTime()
+
+box("Clip 6", Clips[6])
+
+A_Clipboard := Clips[2]
+
+table := ComObjCreate("Scripting.Dictionary")
+
+Clips.Hk.AddTable(table)
+
+Clips.Form.Run(true)
+

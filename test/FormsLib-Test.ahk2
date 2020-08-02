@@ -1,0 +1,30 @@
+#Include %A_ScriptDir%\Debug.ahk2
+
+#Include %A_ScriptDir%\..\lib\Progress.ahk2
+#Include %A_ScriptDir%\..\lib\Date.ahk2
+#Include %A_ScriptDir%\..\lib\String.ahk2
+
+#Include %A_ScriptDir%\..\lib\Form.ahk2
+#Include %A_ScriptDir%\..\lib\Calendar.ahk2
+#Include %A_ScriptDir%\..\lib\SwapBox.ahk2
+#Include %A_ScriptDir%\..\lib\TitleForm.ahk2
+
+Calendar.Run(true)
+MsgBox("Test Synchronous Calendar Gui")
+
+; Calendar.Run(false)
+; MsgBox("Test Asynchronous Calendar Gui")
+
+SwapBox.Run(true)
+MsgBox("Test Synchronous SwapBox Gui")
+
+; SwapBox.Run(false)
+; MsgBox("Test Asynchronous SwapBox Gui")
+
+TitleForm.Run(true)
+MsgBox("Test Synchronous TitleForm Gui")
+
+; TitleForm.Run(false)
+; MsgBox("Test Asynchronous TitleForm Gui")
+
+ExitApp()

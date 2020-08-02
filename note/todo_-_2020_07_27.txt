@@ -1,0 +1,21 @@
+2020_07_27_105610
+
+[ ] Feat: ListAuto (working name)
+
+	List automatic variables
+	
+[ ] Feat: ListHotstrings (working name)
+[ ] Feat: Record
+
+	Record and list replacers
+	
+[d] Feat(SwapBox): Add 'Reset'
+[d] Feat(Calendar): Add 'Pretty Date'
+
+[ ] Fix: Rename 'Command.ahk2'
+[ ] Fix: Rename 'Date.ahk2'
+[ ] Fix: Rename 'String.ahk2'
+...
+[ ] Fix: Rename 'Monitor.ahk2', `Monitor`
+[ ] Fix: Rename 'RunBox.ahk2', `RunBox`
+

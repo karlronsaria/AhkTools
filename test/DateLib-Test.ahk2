@@ -1,0 +1,43 @@
+#Include %A_ScriptDir%\Debug.ahk2
+#Include %A_ScriptDir%\..\lib\Date.ahk2
+
+out := ""
+
+out .= "Next Sun:`t" Dates.GetNextDate(1) "`r`n"
+out .= "Next Mon:`t" Dates.GetNextDate(2) "`r`n"
+out .= "Next Tue:`t" Dates.GetNextDate(3) "`r`n"
+out .= "Next Wed:`t" Dates.GetNextDate(4) "`r`n"
+out .= "Next Thu:`t" Dates.GetNextDate(5) "`r`n"
+out .= "Next Fri:`t`t" Dates.GetNextDate(6) "`r`n"
+out .= "Next Sat:`t`t" Dates.GetNextDate(7) "`r`n"
+
+out .= "`r`n"
+
+out .= "Last Sun:`t`t" Dates.GetNextDate(1, -1) "`r`n"
+out .= "Last Mon:`t" Dates.GetNextDate(2, -1) "`r`n"
+out .= "Last Tue:`t`t" Dates.GetNextDate(3, -1) "`r`n"
+out .= "Last Wed:`t" Dates.GetNextDate(4, -1) "`r`n"
+out .= "Last Thu:`t`t" Dates.GetNextDate(5, -1) "`r`n"
+out .= "Last Fri:`t`t" Dates.GetNextDate(6, -1) "`r`n"
+out .= "Last Sat:`t`t" Dates.GetNextDate(7, -1) "`r`n"
+
+out .= "`r`n"
+
+out .= "Last Sun:`t`t" Dates.GetLastDate(1) "`r`n"
+out .= "Last Mon:`t" Dates.GetLastDate(2) "`r`n"
+out .= "Last Tue:`t`t" Dates.GetLastDate(3) "`r`n"
+out .= "Last Wed:`t" Dates.GetLastDate(4) "`r`n"
+out .= "Last Thu:`t`t" Dates.GetLastDate(5) "`r`n"
+out .= "Last Fri:`t`t" Dates.GetLastDate(6) "`r`n"
+out .= "Last Sat:`t`t" Dates.GetLastDate(7) "`r`n"
+
+MsgBox(out)
+out := ""
+
+out .= "Current Date (MMM d, yyy):`t`t" Dates.GetDate("MMM d, yyy") "`r`n"
+out .= "Current Date Standard:`t`t" Dates.GetStdDate() "`r`n"
+out .= "Current Date Pretty:`t`t" Dates.GetPrettyDate() "`r`n"
+out .= "Current Time:`t`t`t" Dates.GetStdTime() "`r`n"
+out .= "Current Date and Time:`t`t" Dates.GetDateAndTime() "`r`n"
+
+MsgBox(out)

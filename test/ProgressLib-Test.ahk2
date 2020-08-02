@@ -1,0 +1,43 @@
+#Include %A_ScriptDir%\Debug.ahk2
+#Include %A_ScriptDir%\..\lib\Form.ahk2
+#Include %A_ScriptDir%\..\lib\Progress.ahk2
+
+delay := 25
+n := 100
+
+progress := ProgressBar.New("Vertical", n)
+
+loop (n) {
+	Sleep(delay)
+	ToolTip(progress.Current)
+	progress.Next()
+}
+
+Sleep(delay)
+ToolTip()
+progress.End()
+
+progress := ProgressList.New(n)
+; progress.StartDefault()
+
+loop files, "C:\note\*", "R" {
+	Sleep(delay)
+	ToolTip(progress.Current "   " A_LoopFilePath)
+	progress.Push(A_LoopFilePath)
+}
+
+Sleep(delay)
+ToolTip()
+progress.End()
+
+progress := ProgressBar.New("Horizontal", n)
+
+loop (n) {
+	Sleep(delay)
+	ToolTip(progress.Current)
+	progress.Next()
+}
+
+Sleep(delay)
+ToolTip()
+progress.End()

@@ -1,0 +1,43 @@
+"what"
+(table := {what: "The"}) && table["what"]
+(table := {what: "The"}) && table.what
+(key := "what") && (table := {what: "The"}) && table.key
+(key := "what") && (table := {what: "The"}) && table.(key)
+(key := "what") && (table := {what: "The"}) && table.item(key)
+(key := "what") && (table := {what: "The"}) && table.%key%
+" ???????????????? ????`r`n???????? ????????????????"
+";"
+(";" = ";")
+Min(1, 4)
+Min(4, 2)
+Min("4", "7")
+"ahk" = "AHK"
+"Command.Hotstrings()" = "COMMAND.HOTSTRINGS()"
+"ahk" = "command"
+StrUpper("ahk")
+A_StringCaseSense
+"WHAT" = "what"
+StringCaseSense("On") || "WHAT" = "what"
+A_StringCaseSense := "On" && "WHAT" = "what" ? "yeh" : "nah"
+(A_StringCaseSense := "On") && ("WHAT" = "what" ? "yeh" : "nah")
+A_AhkVersion
+A_ThisScriptPath
+A_ThisScript
+A_ScriptFullPath
+"the".Length
+StrLen("the")
+[2, 1, "ahk"].Length
+0x01
+{}.__Enum()
+for key, value in {}
+(a := "") || (b := 2) && (a ?? b)
+2 || 3
+0 || 3
+"" | 4
+"" || 4
+"" and 4
+"" or 4
+"" or a := 4
+2 or a := 4
+2 or 3
+"" or 3

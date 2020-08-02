@@ -1,0 +1,7 @@
+#Include %A_ScriptDir%\..\lib\Form.ahk2
+#Include %A_ScriptDir%\..\lib\History.ahk2
+#Include %A_ScriptDir%\..\lib\LineReader.ahk2
+#Include %A_ScriptDir%\..\lib\RunBox.ahk2
+
+myForm := RunBox.Run(true)
+ExitApp()

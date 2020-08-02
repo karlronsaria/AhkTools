@@ -1,0 +1,12 @@
+what := {
+	key1 : "the"
+  , key2 : "heck"
+}
+
+out := ""
+
+for key, value in what.OwnProps() {
+	out .= "Key: [" key "]  Value: [" value "]`r`n"
+}
+
+MsgBox(out)

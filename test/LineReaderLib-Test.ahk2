@@ -1,0 +1,33 @@
+#Include %A_ScriptDir%\Debug.ahk2
+#Include %A_ScriptDir%\..\lib\Form.ahk2
+#Include %A_ScriptDir%\..\lib\LineReader.ahk2
+
+filename := "C:\note\dev_-_DocumentationStandards_2019_11_06.txt"
+
+cursor := LineReader.New(filename)
+myGui := LineReader.ShowEnumerableListView("EnumerableListView", filename, cursor)
+cursor.Close()
+myGui.Wait()
+
+cursor := LineReader.New(filename)
+lines := []
+
+for (line in cursor) {
+	lines.Push(line)
+}
+
+cursor.Close()
+myGui := LineReader.ShowListView("ListView", filename, lines)
+myGui.Wait()
+
+cursor := LineReader.New(filename)
+str := filename ": `r`n`r`n"
+
+for (_, line in cursor) {
+	str .= line "`r`n"
+}
+
+cursor.Close()
+myGui := LineReader.ShowEditBox("EditBox", str)
+myGui.Wait()
+ExitApp()

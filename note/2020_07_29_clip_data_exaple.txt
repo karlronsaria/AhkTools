@@ -1,0 +1,9 @@
+On startup, the sqlite3 program will show a brief banner message then prompt you to enter SQL. Type in SQL statements (terminated by a semicolon), press Enter and the SQL will be executed.
+
+For example, to create a new SQLite database named ex1 with a single table named tbl1, you might do this:
+
+$ sqlite3 ex1
+SQLite version 3.28.0 2019-03-02 15:25:24
+Enter .help for usage hints.
+sqlite> create table tbl1(one varchar(10), two smallint);
+sqlite> insert into tbl1 values('hello!',10);

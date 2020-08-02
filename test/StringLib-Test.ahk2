@@ -1,0 +1,41 @@
+#Include %A_ScriptDir%\Debug.ahk2
+#Include %A_ScriptDir%\..\lib\String.ahk2
+
+box("Title Case", Strings.StrSwap("what the", "what", "the"))
+box("Title Case", Strings.ToTitleCase("what the"))
+box("Title Case", Strings.ToTitleCase("what the`r`nwhat the`r`nwhat the"))
+box("Upper Camel Case", Strings.ToUpperCamelCase("what the"))
+box("Upper Camel Case", Strings.ToUpperCamelCase("what the`r`nwhat the`r`nwhat the"))
+box("Random Case", Strings.ToRandomCase("what the"))
+box("Repeat 5 Times", Strings.Repeat("what ", 5))
+
+what := "C:\shortcut\script\ahk5\test"
+what := Strings.ToUnixString(what)
+box("Unix String", what)
+what := Strings.ToDosString(what)
+box("Dos String", what)
+what := Strings.ToJsonString(what)
+box("Json String", what)
+
+what := "It's all I have to bring today..."
+
+assert(
+	"Strings.GetLengthOfString",
+	what,
+	33,
+	Strings.GetLengthOfString(what, 4)
+)
+
+what :=    "It's al`tl I`tha`tve to bring`ttoday`t..."
+            ;
+			
+assert(
+	"Strings.GetLengthOfString",
+	what,
+	39,
+	Strings.GetLengthOfString(what, 4)
+)
+
+what := "`t`t   It's all I have to bring today, this and my heart beside, this and my heart and all the fields and all the meadows wide."
+
+box("Linebreak(what, 4, 30)", Strings.BlockText(what, 4, 30))

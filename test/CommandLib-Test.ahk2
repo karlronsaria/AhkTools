@@ -1,0 +1,22 @@
+#Include %A_ScriptDir%\Debug.ahk2
+#Include %A_ScriptDir%\..\lib\Command.ahk2
+
+out := ""
+out .= "1 Process: " Commands.GetKillAllMessage(["what.exe"]) "`r`n`r`n"
+out .= "2 Processes: " Commands.GetKillAllMessage(["what.exe", "the.exe"]) "`r`n`r`n"
+out .= "3 Processes: " Commands.GetKillAllMessage(["what.exe", "the.exe", "heck.exe"]) "`r`n`r`n"
+MsgBox(out)
+
+out := ""
+out .= "1 Process: " Commands.GetCloseAllMessage(["what.exe"]) "`r`n`r`n"
+out .= "2 Processes: " Commands.GetCloseAllMessage(["what.exe", "the.exe"]) "`r`n`r`n"
+out .= "3 Processes: " Commands.GetCloseAllMessage(["what.exe", "the.exe", "heck.exe"]) "`r`n`r`n"
+MsgBox(out)
+
+out := "Top Drive`r`n`r`n"
+out .= "   Type 1: " (Commands.GetLogicalDiskId(1, 0) || "None") "`r`n"
+out .= "   Type 2: " Commands.GetLogicalDiskId(2, 0) "`r`n"
+out .= "   Type 3: " Commands.GetLogicalDiskId(3, 0) "`r`n"
+MsgBox(out)
+
+Commands.LoadConfirmationDialog()

@@ -1,0 +1,10 @@
+#Include %A_ScriptDir%\Debug.ahk2
+
+#Include %A_ScriptDir%\..\lib\Form.ahk2
+
+MsgBox(Form.InputBox(
+	  "Make edits to the following:"
+	, "Input Test"
+	, "r5"
+	, "some default`r`nmultiline`r`nvalue"
+).Value)
