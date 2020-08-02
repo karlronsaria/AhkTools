@@ -34,10 +34,10 @@ for key, value in {}
 2 || 3
 0 || 3
 "" | 4
-"" || 4
 "" and 4
 "" or 4
 "" or a := 4
 2 or a := 4
 2 or 3
 "" or 3
+"" || 4

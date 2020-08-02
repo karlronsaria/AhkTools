@@ -1,0 +1,39 @@
+#Requires AutoHotkey v2.0-
+
+; #Include %A_ScriptDir%\..\lib\Monitor.ahk2
+
+class HkMap {
+    static Delimiter => ";"
+    
+    static __table := ""
+    
+    __New() {
+        if (not HkMap.__table)
+            HkMap.__table := ComObjCreate("Scripting.Dictionary")
+    }
+    
+    CallThisKey() {
+        this.Call(Trim(Monitor.GetHotkeyName(A_ThisHotkey), HkMap.Delimiter))
+    }
+    
+    Call(key) {
+        HkMap.__table[key][2].Call()
+    }
+    
+    Show(command, key) {
+        if (StrUpper(command) = "HELP")
+            MsgBox(HkMap.__table[key][1])
+    }
+    
+    Main(add_table_func) {
+        add_table_func.Call(HkMap.__table)
+        
+        if (A_Args.Length = 1) {
+            this.Call(A_Args[1])
+            Monitor.Exit()
+        } else if (A_Args.Length > 1) {
+            this.Show(A_Args[1], A_Args[2])
+            Monitor.Exit()
+        }
+    }
+}

@@ -3,298 +3,284 @@
 ; #Include %A_ScriptDir%\..\lib\Monitor.ahk2
 ; #Include %A_ScriptDir%\..\lib\Form.ahk2
 ; #Include %A_ScriptDir%\..\external\SQLiteDB.ahk2
+; #Include %A_ScriptDir%\..\map\HkMap.ahk2
 
 class Clips {
-	class Statements {
-		static Init() {
-			return "create table if not exists clip (id integer not null primary key, text blob, unique(id));"
-		}
-		
-		static Add(id, value) {
-			return "insert or ignore into clip (id, text) values ('" id "', '" StrReplace(value, "'", "''") "');"
-		}
-		
-		static Set(id, value) {
-			return "update clip set text = ('" StrReplace(value, "'", "''") "') where id = '" id "';"
-		}
-		
-		static Get(id) {
-			return "select text from clip where id = '" id "';"
-		}
-	}
-	
-	static __conn := ""
-	
-	static DefaultDbPath => A_WorkingDir "\res\.ahkdata.db"
-	static DefaultDllPath => A_WorkingDir "\bin\sqlite3.dll"
-	static DB => Clips.__conn or Clips.__conn := Clips.NewDefault()
-	static Count => 10
-	
-	static __Item[index] {
-		get => Clips.DB[index]
-		set => Clips.DB[index] := value
-	}
-	
-	static NewDefault() {
-		return Clips.New(Clips.DefaultDllPath, Clips.DefaultDbPath)
-	}
-	
-	__conn := ""
-	
-	__New(dllPath, dbPath) {
-		this.__conn := SQLiteDB.New(dllPath)
-		
-		if !this.__conn.OpenDB(dbPath)
-		or !this.Run(Clips.Statements.Init())
-			this.ShowError()
-	}
-	
-	__Delete() {
-		this.__conn.CloseDB()
-	}
-	
-	__Item[index] {
-		get {
-			if !this.Run(Clips.Statements.Add(index, ""))
-				this.ShowError()
-				
-			return this.Query(Clips.Statements.Get(index)).Rows[1][1]
-		}
-		
-		set {
-			if !this.Run(Clips.Statements.Add(index, ""))
-			or !this.Run(Clips.Statements.Set(index, value))
-				this.ShowError()
-		}
-	}
-	
-	Run(statement) {
-		return this.__conn.Exec(statement)
-	}
-	
-	Query(statement) {
-		return this.__conn.GetTable(statement, result) ? result : { Rows: [[""]] }
-	}
-	
-	ShowError() {
-		MsgBox(
-			"Msg:`t" this.__conn.ErrorMsg
-			"`r`nCode:`t" this.__conn.ErrorCode,
-			"SQLite Error", 16
-		)
-	}
-	
-	static TOOLTIP_DURATION_MS => 2000
-	
-	static SetIfAny(index) {
-		if (StrLen(A_Clipboard) > 0) {
-			Clips[index] := A_Clipboard
-			msg := "Copied Clipboard to Clip " index
-		} else {
-			msg := "Nothing on the Clipboard"
-		}
-		
-		ToolTip(msg)
-		SetTimer(() => ToolTip(), -Clips.TOOLTIP_DURATION_MS)
-	}
-	
-	static ClipIfAny(index) {
-		what := Clips[index]
-		
-		if (StrLen(what) > 0) {
-			A_Clipboard := what
-			msg := "Copied Clip " index " to Clipboard"
-		} else {
-			msg := "Nothing in Clip " index
-		}
-		
-		ToolTip(msg)
-		SetTimer(() => ToolTip(), -Clips.TOOLTIP_DURATION_MS)
-	}
-	
-	static GetIfAny(index) {
-		what := Clips[index]
-		
-		if (StrLen(what) > 0)
-			return what
-			
-		ToolTip("Nothing in Clip " index)
-		SetTimer(() => ToolTip(), -Clips.TOOLTIP_DURATION_MS)
-	}
-	
-	class Form {
-	    static TEXT_BOX_OPTIONS => "r10 w500 Multi ReadOnly Checked"
-		
-		static Run(wait := false) {
-			if (not wait)
-				return Clips.Form.New()
-				
-			Clips.Form.New().__form.Wait()
-		}
-		
-		__form := ""
-		
-		Text {
-			get => this.__form.Gui["Text"].Text
-			set => this.__form.Gui["Text"].Text := value
-		}
-		
-		Copy() {
-			if (this.__form.HasFocus()) {
-				lv := this.__form.Gui["List"]
-				rowNumber := lv.GetNext()
-				
-				if (rowNumber > 0) {
-					this.__form.Gui.Submit(false)
-					A_Clipboard := lv.GetText(rowNumber, 2)
-					this.Text := "Copied Clip " (rowNumber - 1) " to Clipboard"
-				} else {
-					this.Text := "Select a list item."
-				}
-			}
-		}
-		
-		Input() {
-			if (this.__form.HasFocus()) {
-				lv := this.__form.Gui["List"]
-				rowNumber := lv.GetNext()
-				
-				if (rowNumber > 0) {
-					box := Form.InputBox(
-					      "Edit Clip " (rowNumber - 1) ":"
-					    , "Clip " (rowNumber - 1)
-					    , "r8"
-						, lv.GetText(rowNumber, 2)
-						, true
-					)
-					
-					if box.Result != "Cancel"
-						lv.Modify(rowNumber, "Col2", box.Value)
-				}
-			}
-		}
-		
-		SetSelected(value) {
-			lv := this.__form.Gui["List"]
-			row := 0
-			
-			loop {
-				row := lv.GetNext(row, "Checked")
-				
-				if (not row)
-					break
-					
-				lv.Modify(row, "Col2", value)
-			}
-		}
-		
-		SubmitAndClose() {
-			lv := this.__form.Gui["List"]
-			
-			loop Clips.Count {
-				Clips[A_Index - 1] := lv.GetText(A_Index, 2)
-			}
-			
-			this.__form.Cancel()
-		}
-		
-		__New() {
-			this.__form := Form.New()
-			this.__form.Gui.SetFont("S" Form.READABLE_POINT, Form.MONOSPACE_TF)
-			
-			lv := this.__form.Gui.Add(
-				  "ListView"
-				, Clips.Form.TEXT_BOX_OPTIONS " " Form.CtrlColors " vList"
-				, ["Clip", "Preview"]
-			)
-			
-			loop Clips.Count {
-				index := A_Index - 1
-				lv.Add(, index, Clips[index])
-			}
-			
-			confirm_button := this.__form.Gui.Add("Button", "w100", "&OK")
-			copy_button    := this.__form.Gui.Add("Button", "w200 x+m yp", "&Copy To Clipboard")
-			cancel_button  := this.__form.Gui.Add("Button", "w100 x+m yp", "Ca&ncel")
-			hidden_button  := this.__form.Gui.Add("Button", "w0 h0 Hidden Default")
-			
-			this.__form.Gui.Add(
-				"Text", "c" Form.NotifyColor " w500 r2 xs +Wrap vText"
-			)
-			
-			lv.OnEvent("DoubleClick", (*) => this.Copy())
-			confirm_button.OnEvent("Click", (*) => this.SubmitAndClose())
-			hidden_button.OnEvent("Click", (*) => this.SubmitAndClose())
-			copy_button.OnEvent("Click", (*) => this.Copy())
-			cancel_button.OnEvent("Click", (*) => this.__form.Cancel())
-			
-			this.__form.MapKey("~F2", (*) => this.Input())
-			this.__form.MapKey("~^c", (*) => this.Copy())
-			this.__form.MapKey("~^v", (*) => this.SetSelected(A_Clipboard))
-			this.__form.MapKey("~Delete", (*) => this.SetSelected(""))
-			
-			this.__form.Gui.Title := "Clips"
-			this.__form.Gui.OnEvent("Close", (*) => this.__form.Cancel())
-			this.__form.Gui.OnEvent("Escape", (*) => this.__form.Cancel())
-			this.__form.Gui.Show()
-		}
-	}
-	
-	class Hk {
-		static __table := ""
-		
-		static AddTable(ByRef table) {
-		
-			table["clips"] := [
-				"Hotstring: Open the table of clipboards for editing",
-				() => Monitor.Override(() => Clips.Form.Run(true))
-			]
-			
-			loop Clips.Count {
-				index := A_Index - 1
-				
-				table["get" index] := [
-					"Hotstring: Copy to Windows Clipboard the item recorded in Clip " index,
-					((i) => Monitor.Override(() => Clips.ClipIfAny(i))).Bind(index)
-				]
-				
-				table["set" index] := [
-					"Hotstring: Record the content of Windows Clipboard to Clip " index,
-					((i) => Monitor.Override(() => Clips.SetIfAny(i))).Bind(index)
-				]
-				
-				table["send" index] := [
-					"Hotstring: Copy to Windows Clipboard the item recorded in Clip " index,
-					((i) => Monitor.Run(() => Clips.GetIfAny(i))).Bind(index)
-				]
-			}
-		}
-		
-		static Call(key) {
-			Clips.Hk.__table[key][2].Call()
-		}
-		
-		static Show(command, key) {
-			if (StrUpper(command) = "HELP")
-				MsgBox(Clips.Hk.__table[key][1])
-		}
-		
-		static Main() {
-			Clips.Hk.__table := ComObjCreate("Scripting.Dictionary")
-			Clips.Hk.AddTable(Clips.Hk.__table)
-			
-			if (A_Args.Length = 1) {
-				Clips.Hk.Call(A_Args[1])
-				Monitor.Exit()
-			} else if (A_Args.Length > 1) {
-				Clips.Hk.Show(A_Args[1], A_Args[2])
-				Monitor.Exit()
-			}
-		}
-	}
+    class Statements {
+        static Init() {
+            return "create table if not exists clip (id integer not null primary key, text blob, unique(id));"
+        }
+        
+        static Add(id, value) {
+            return "insert or ignore into clip (id, text) values ('" id "', '" StrReplace(value, "'", "''") "');"
+        }
+        
+        static Set(id, value) {
+            return "update clip set text = ('" StrReplace(value, "'", "''") "') where id = '" id "';"
+        }
+        
+        static Get(id) {
+            return "select text from clip where id = '" id "';"
+        }
+    }
+    
+    static __conn := ""
+    
+    static DefaultDbPath => A_WorkingDir "\res\.ahkdata.db"
+    static DefaultDllPath => A_WorkingDir "\bin\sqlite3.dll"
+    static DB => Clips.__conn or Clips.__conn := Clips.NewDefault()
+    static Count => 10
+    
+    static __Item[index] {
+        get => Clips.DB[index]
+        set => Clips.DB[index] := value
+    }
+    
+    static NewDefault() {
+        return Clips.New(Clips.DefaultDllPath, Clips.DefaultDbPath)
+    }
+    
+    __conn := ""
+    
+    __New(dllPath, dbPath) {
+        this.__conn := SQLiteDB.New(dllPath)
+        
+        if !this.__conn.OpenDB(dbPath)
+        or !this.Run(Clips.Statements.Init())
+            this.ShowError()
+    }
+    
+    __Delete() {
+        this.__conn.CloseDB()
+    }
+    
+    __Item[index] {
+        get {
+            if !this.Run(Clips.Statements.Add(index, ""))
+                this.ShowError()
+                
+            return this.Query(Clips.Statements.Get(index)).Rows[1][1]
+        }
+        
+        set {
+            if !this.Run(Clips.Statements.Add(index, ""))
+            or !this.Run(Clips.Statements.Set(index, value))
+                this.ShowError()
+        }
+    }
+    
+    Run(statement) {
+        return this.__conn.Exec(statement)
+    }
+    
+    Query(statement) {
+        return this.__conn.GetTable(statement, result) ? result : { Rows: [[""]] }
+    }
+    
+    ShowError() {
+        MsgBox(
+            "Msg:`t" this.__conn.ErrorMsg
+            "`r`nCode:`t" this.__conn.ErrorCode,
+            "SQLite Error", 16
+        )
+    }
+    
+    static TOOLTIP_DURATION_MS => 2000
+    
+    static SetIfAny(index) {
+        if (StrLen(A_Clipboard) > 0) {
+            Clips[index] := A_Clipboard
+            msg := "Copied Clipboard to Clip " index
+        } else {
+            msg := "Nothing on the Clipboard"
+        }
+        
+        ToolTip(msg)
+        SetTimer(() => ToolTip(), -Clips.TOOLTIP_DURATION_MS)
+    }
+    
+    static ClipIfAny(index) {
+        what := Clips[index]
+        
+        if (StrLen(what) > 0) {
+            A_Clipboard := what
+            msg := "Copied Clip " index " to Clipboard"
+        } else {
+            msg := "Nothing in Clip " index
+        }
+        
+        ToolTip(msg)
+        SetTimer(() => ToolTip(), -Clips.TOOLTIP_DURATION_MS)
+    }
+    
+    static GetIfAny(index) {
+        what := Clips[index]
+        
+        if (StrLen(what) > 0)
+            return what
+            
+        ToolTip("Nothing in Clip " index)
+        SetTimer(() => ToolTip(), -Clips.TOOLTIP_DURATION_MS)
+    }
+    
+    class Form {
+        static TEXT_BOX_WIDTH => 500
+        static TEXT_BOX_OPTIONS {
+            get => "r10 w" Clips.Form.TEXT_BOX_WIDTH " Multi ReadOnly Checked"
+        }
+        
+        static Run(wait := false) {
+            if (not wait)
+                return Clips.Form.New()
+                
+            Clips.Form.New().__form.Wait()
+        }
+        
+        __form := ""
+        
+        Text {
+            get => this.__form.Gui["Text"].Text
+            set => this.__form.Gui["Text"].Text := value
+        }
+        
+        Copy() {
+            if (this.__form.HasFocus()) {
+                lv := this.__form.Gui["List"]
+                rowNumber := lv.GetNext()
+                
+                if (rowNumber > 0) {
+                    this.__form.Gui.Submit(false)
+                    A_Clipboard := lv.GetText(rowNumber, 2)
+                    this.Text := "Copied Clip " (rowNumber - 1) " to Clipboard"
+                } else {
+                    this.Text := "Select a list item."
+                }
+            }
+        }
+        
+        Input() {
+            if (this.__form.HasFocus()) {
+                lv := this.__form.Gui["List"]
+                rowNumber := lv.GetNext()
+                
+                if (rowNumber > 0) {
+                    box := Form.InputBox(
+                          "Edit Clip " (rowNumber - 1) ":"
+                        , "Clip " (rowNumber - 1)
+                        , "r8"
+                        , lv.GetText(rowNumber, 2)
+                        , true
+                    )
+                    
+                    if box.Result != "Cancel"
+                        lv.Modify(rowNumber, "Col2", box.Value)
+                }
+            }
+        }
+        
+        SetSelected(value) {
+            lv := this.__form.Gui["List"]
+            row := 0
+            
+            loop {
+                row := lv.GetNext(row, "Checked")
+                
+                if (not row)
+                    break
+                    
+                lv.Modify(row, "Col2", value)
+            }
+        }
+        
+        SubmitAndClose() {
+            lv := this.__form.Gui["List"]
+            
+            loop Clips.Count {
+                Clips[A_Index - 1] := lv.GetText(A_Index, 2)
+            }
+            
+            this.__form.Cancel()
+        }
+        
+        __New() {
+            this.__form := Form.New()
+            this.__form.SetMonospaceStyle()
+            
+            lv := this.__form.Gui.Add(
+                  "ListView"
+                , Clips.Form.TEXT_BOX_OPTIONS " " Form.CtrlColors " vList"
+                , ["Clip", "Preview"]
+            )
+            
+            loop Clips.Count {
+                index := A_Index - 1
+                lv.Add(, index, Clips[index])
+            }
+            
+            textw := Clips.Form.TEXT_BOX_WIDTH
+            space := 10
+            pos := (textw - (space + 100 + space + 100 + space + 200))/2
+            
+            confirm_button := this.__form.Gui.Add("Button", "w100 xm+" pos, "&OK")
+            copy_button    := this.__form.Gui.Add("Button", "w200 x+m yp", "&Copy To Clipboard")
+            cancel_button  := this.__form.Gui.Add("Button", "w100 x+m yp", "Ca&ncel")
+            hidden_button  := this.__form.Gui.Add("Button", "w0 h0 Hidden Default")
+            
+            this.__form.Gui.Add(
+                "Text", "c" Form.NotifyColor " w500 r2 xs +Wrap vText"
+            )
+            
+            lv.OnEvent("DoubleClick", (*) => this.Copy())
+            confirm_button.OnEvent("Click", (*) => this.SubmitAndClose())
+            hidden_button.OnEvent("Click", (*) => this.SubmitAndClose())
+            copy_button.OnEvent("Click", (*) => this.Copy())
+            cancel_button.OnEvent("Click", (*) => this.__form.Cancel())
+            
+            this.__form.MapKey("~F2", (*) => this.Input())
+            this.__form.MapKey("~^c", (*) => this.Copy())
+            this.__form.MapKey("~^v", (*) => this.SetSelected(A_Clipboard))
+            this.__form.MapKey("~Delete", (*) => this.SetSelected(""))
+            
+            this.__form.Gui.Title := "Clips"
+            this.__form.Gui.OnEvent("Close", (*) => this.__form.Cancel())
+            this.__form.Gui.OnEvent("Escape", (*) => this.__form.Cancel())
+            this.__form.Gui.Show()
+        }
+    }
+    
+    class Hk extends HkMap {
+        static __table := ""
+        
+        static AddTable(ByRef table) {
+        
+            table["clips"] := [
+                "Hotstring: Open the table of clipboards for editing",
+                () => Monitor.Override(() => Clips.Form.Run(true))
+            ]
+            
+            loop Clips.Count {
+                index := A_Index - 1
+                
+                table["get" index] := [
+                    "Hotstring: Copy to Windows Clipboard the item recorded in Clip " index,
+                    ((i) => Monitor.Override(() => Clips.ClipIfAny(i))).Bind(index)
+                ]
+                
+                table["set" index] := [
+                    "Hotstring: Record the content of Windows Clipboard to Clip " index,
+                    ((i) => Monitor.Override(() => Clips.SetIfAny(i))).Bind(index)
+                ]
+                
+                table["send" index] := [
+                    "Hotstring: Copy to Windows Clipboard the item recorded in Clip " index,
+                    ((i) => Monitor.Run(() => Clips.GetIfAny(i))).Bind(index)
+                ]
+            }
+        }
+    }
 }
 
-Clips.Hk.Main()
+Clips.Hk.New().Main((t) => Clips.Hk.AddTable(t))
 
 :?:;clips;::
 :*?:;get0;::
@@ -328,5 +314,5 @@ Clips.Hk.Main()
 :*?:;send8;::
 :*?:;send9;::
 {
-    Clips.Hk.Call(Trim(Monitor.GetHotkeyName(A_ThisHotkey), ";"))
+    Clips.Hk.New().CallThisKey()
 }
