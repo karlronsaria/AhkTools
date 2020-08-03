@@ -39,7 +39,7 @@ class HkMap {
                 return lv.GetText(rowNumber, 1)
         }
     }
-    
+	
     RunListViewForm() {
         myForm := Form.New()
         myForm.Gui.Title := "Hotstrings for " A_ScriptName

@@ -20,7 +20,6 @@ A_StringCaseSense
 StringCaseSense("On") || "WHAT" = "what"
 A_StringCaseSense := "On" && "WHAT" = "what" ? "yeh" : "nah"
 (A_StringCaseSense := "On") && ("WHAT" = "what" ? "yeh" : "nah")
-A_AhkVersion
 A_ThisScriptPath
 A_ThisScript
 "the".Length
@@ -46,3 +45,6 @@ A_ScriptName
 not 1
 not not 1
 not not 2
+ListVars
+ListVar
+A_AhkVersion
