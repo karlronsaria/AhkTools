@@ -23,7 +23,6 @@ A_StringCaseSense := "On" && "WHAT" = "what" ? "yeh" : "nah"
 A_AhkVersion
 A_ThisScriptPath
 A_ThisScript
-A_ScriptFullPath
 "the".Length
 StrLen("the")
 [2, 1, "ahk"].Length
@@ -41,3 +40,5 @@ for key, value in {}
 2 or 3
 "" or 3
 "" || 4
+A_ScriptFullPath
+A_ScriptName
