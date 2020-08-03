@@ -4,6 +4,7 @@
 
 	List automatic variables
 	
+[ ] Feat: Math 'sum' command
 [d] Feat: ListHotstrings (working name)
 [d] Feat: Record
 
