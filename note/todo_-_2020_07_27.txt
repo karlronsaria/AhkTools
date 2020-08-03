@@ -4,7 +4,7 @@
 
 	List automatic variables
 	
-[ ] Feat: ListHotstrings (working name)
+[d] Feat: ListHotstrings (working name)
 [d] Feat: Record
 
 	Record and list replacers

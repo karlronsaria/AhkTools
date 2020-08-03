@@ -1,6 +1,7 @@
 #Requires AutoHotkey v2.0-
 
 ; #Include %A_ScriptDir%\..\lib\Monitor.ahk2
+; #Include %A_ScriptDir%\..\lib\Form.ahk2
 
 class HkMap {
     static Delimiter => ";"
@@ -14,12 +15,20 @@ class HkMap {
     }
     
     CallThisKey() {
-        this.Call(Trim(Monitor.GetHotkeyName(A_ThisHotkey), HkMap.Delimiter))
+        return this.Call(Trim(Monitor.GetHotkeyName(A_ThisHotkey), HkMap.Delimiter))
     }
     
     Call(key) {
-        HkMap.__table[key][2].Call()
+        return HkMap.__table[key][2].Call()
     }
+	
+	CallWithoutHk(key) {
+		prev := Monitor.CheckHotkeyName
+		Monitor.SetHotkeyNameCheck(false)
+		what := this.Call(key)
+		Monitor.SetHotkeyNameCheck(prev)
+		return what
+	}
     
     static __GetKey(myForm) {
         if (myForm.HasFocus()) {
@@ -31,7 +40,7 @@ class HkMap {
         }
     }
     
-    __RunListViewForm() {
+    RunListViewForm() {
         myForm := Form.New()
         myForm.Gui.Title := "Hotstrings for " A_ScriptName
         
@@ -45,13 +54,13 @@ class HkMap {
             lv.Add(, key, RegExReplace(HkMap.__table[key][1], "^Hotstring: "))
             
         lv.ModifyCol
-        lv.OnEvent("DoubleClick", (*) => this.Call(HkMap.__GetKey(myForm)))
+        lv.OnEvent("DoubleClick", (*) => this.CallWithoutHk(HkMap.__GetKey(myForm)))
         
         cancel_button := myForm.Gui.Add("Button", "w100 x+m yp", "Ca&ncel")
         hidden_button := myForm.Gui.Add("Button", "w0 h0 Hidden Default")
         
         cancel_button.OnEvent("Click", (*) => myForm.Cancel())
-        hidden_button.OnEvent("Click", (*) => this.Call(HkMap.__GetKey(myForm)))
+        hidden_button.OnEvent("Click", (*) => this.CallWithoutHk(HkMap.__GetKey(myForm)))
         
         myForm.Gui.OnEvent("Close", (*) => myForm.Cancel())
         myForm.Gui.OnEvent("Escape", (*) => myForm.Cancel())
@@ -65,7 +74,7 @@ class HkMap {
         if (command = "HELP") {
             MsgBox(HkMap.__table[key][1])
         } else if (command = "LIST") {
-            this.__RunListViewForm()
+            this.RunListViewForm()
         }
     }
     

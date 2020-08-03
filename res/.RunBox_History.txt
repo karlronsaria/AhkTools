@@ -42,3 +42,7 @@ for key, value in {}
 "" || 4
 A_ScriptFullPath
 A_ScriptName
+1
+not 1
+not not 1
+not not 2
