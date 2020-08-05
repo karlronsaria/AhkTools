@@ -53,3 +53,10 @@ A_AhkVersion
 ["what", "the"].HasProp("Count")
 ["what", "the"].Length
 "str".Length
+not not A_ScriptName
+not not ""
+[].Any()
+coll := ComObjCreate("Scripting.List")
+coll := ComObjCreate("Scripting.Dictionary")
+[coll := ComObjCreate("Scripting.Dictionary"), coll["what"] := "the", coll["huh"] := " heck"] && (coll["what"] coll["huh"])
+[coll := ComObjCreate("Scripting.Dictionary"), coll["what"] := "Hello", coll["huh"] := "world"] && (coll["what"] ", " coll["huh"] "!")

@@ -1,0 +1,13 @@
+#Requires AutoHotkey v2.0-
+
+; #Include %A_ScriptDir%\..\lib\Monitor.ahk2
+; #Include %A_ScriptDir%\..\map\HkMap.ahk2
+
+class GlyphHk extends HkMap {
+    static AddGlyph(ByRef table, key, unic, result, help) {
+        table[key] := [
+            "Hotstring: (" result ") " help,
+            () => Monitor.SendUnicode(unic)
+        ]
+    }
+}
