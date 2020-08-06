@@ -60,3 +60,16 @@ coll := ComObjCreate("Scripting.List")
 coll := ComObjCreate("Scripting.Dictionary")
 [coll := ComObjCreate("Scripting.Dictionary"), coll["what"] := "the", coll["huh"] := " heck"] && (coll["what"] coll["huh"])
 [coll := ComObjCreate("Scripting.Dictionary"), coll["what"] := "Hello", coll["huh"] := "world"] && (coll["what"] ", " coll["huh"] "!")
+4//2
+8 // 2
+A_UserName
+A_TrayMenu
+A_TrayMenu.Add("Item 1", MsgBox("What."))
+A_TrayMenu.Add("Item 1", () => MsgBox("What."))
+A_TrayMenu.Add("Item 1", (*) => MsgBox("What."))
+ComObjCreate("WScript.Shell").Exec("python .\script\evaluate.py").StdOut.ReadAll()
+ComObjCreate("WScript.Shell").Exec("python ..\script\evaluate.py").StdOut.ReadAll()
+ComObjCreate("WScript.Shell").Exec("python C:\shortcut\ahk\script\evaluate.py").StdOut.ReadAll()
+ComObjCreate("WScript.Shell").Exec("python C:/shortcut/ahk/script/evaluate_clipboard.py").StdOut.ReadAll()
+ComObjCreate("WScript.Shell").Exec("python C:\shortcut\ahk\script\evaluate_clipboard.py").StdOut.ReadAll()
+A_WorkingDir
