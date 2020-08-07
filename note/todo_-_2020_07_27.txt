@@ -1,10 +1,10 @@
 2020_07_27_105610
 
-[ ] Feat: ListAuto (working name)
+[x] Feat: ListAuto (working name)
 
 	List automatic variables
 	
-[ ] Feat: Math 'sum' command
+[d] Feat: Math 'sum' command
 [d] Feat: ListHotstrings (working name)
 [d] Feat: Record
 
@@ -20,4 +20,8 @@
 [ ] Fix: Rename 'Monitor.ahk2', `Monitor`
 [ ] Fix: Rename 'RunBox.ahk2', `RunBox`
 
+2020_08_05_180053
+
+[ ] Fix: sum
+[ ] Feat: Hotstring attributes
 

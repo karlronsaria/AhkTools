@@ -1,5 +1,6 @@
 {
 	"dependencies": {
-		"autohotkey": ">=2.0-a115-f7c71ea8"
+		"autohotkey": ">=2.0-a115-f7c71ea8",
+		"python": ">=3.0"
 	}
 }
