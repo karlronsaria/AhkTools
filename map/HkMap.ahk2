@@ -74,7 +74,9 @@ class HkMap {
         cancel_button.OnEvent("Click", (*) => myForm.Cancel())
         hidden_button.OnEvent("Click", (*) => this.CallWithoutHk(HkMap.__GetKey(myForm)))
 		
-        myForm.MapKey("~^c", (*) => A_Clipboard := HkMap.__GetDescription(myForm))
+        myForm.MapKey("~^c", (*) => (
+			myForm.HasFocus() and A_Clipboard := HkMap.__GetDescription(myForm)
+		))
         
         myForm.Gui.OnEvent("Close", (*) => myForm.Cancel())
         myForm.Gui.OnEvent("Escape", (*) => myForm.Cancel())
