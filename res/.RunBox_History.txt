@@ -51,7 +51,6 @@ A_AhkVersion
 "str".Count
 "str".HasProp("Count")
 ["what", "the"].HasProp("Count")
-["what", "the"].Length
 "str".Length
 not not A_ScriptName
 not not ""
@@ -73,3 +72,7 @@ ComObjCreate("WScript.Shell").Exec("python C:\shortcut\ahk\script\evaluate.py").
 ComObjCreate("WScript.Shell").Exec("python C:/shortcut/ahk/script/evaluate_clipboard.py").StdOut.ReadAll()
 ComObjCreate("WScript.Shell").Exec("python C:\shortcut\ahk\script\evaluate_clipboard.py").StdOut.ReadAll()
 A_WorkingDir
+1 - 30
+30 - 1
+"what".Length
+["what", "the"].Length

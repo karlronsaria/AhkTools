@@ -1,5 +1,4 @@
-import math
-import numpy as np
+from numpy import *
 import win32clipboard as clip
 
 clip.OpenClipboard()

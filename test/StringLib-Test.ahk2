@@ -1,3 +1,8 @@
+
+#Include %A_ScriptDir%\..\lib\Form.ahk2
+#Include %A_ScriptDir%\..\lib\LineReader.ahk2
+#Include %A_ScriptDir%\..\lib\Progress.ahk2
+
 #Include %A_ScriptDir%\Debug.ahk2
 #Include %A_ScriptDir%\..\lib\String.ahk2
 
@@ -39,3 +44,18 @@ assert(
 what := "`t`t   It's all I have to bring today, this and my heart beside, this and my heart and all the fields and all the meadows wide."
 
 box("Linebreak(what, 4, 30)", Strings.BlockText(what, 4, 30))
+
+what := "                          What what what what what.`r`n   What.`r`n         What."
+the := (
+	"			  What what what what what.`r`n"
+	"   What.`r`n"
+	"	 What.`r`n"
+)
+
+assert(
+	 "Strings.ReplaceLeadingSpacesWithTabs"
+	, what
+	, the
+	, Strings.ReplaceLeadingSpacesWithTabs(what, 8)
+)
+
