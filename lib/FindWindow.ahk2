@@ -1,0 +1,230 @@
+#Requires AutoHotkey v2.0-
+
+; #Include %A_ScriptDir%\..\lib\Form.ahk2
+
+class FindWindow {
+	static NotifyDurationSec => 3
+	
+	static Windows {
+		get {
+			windows := []
+			
+			for _, id in WinGetList() {
+				if (id != WinGetId("A")) {
+					title := WinGetTitle("ahk_id " id)
+					
+					if (StrLen(title) > 0) {
+						windows.Push({ Id: id, Title: title })
+					}
+				}
+			}
+			
+			return windows
+		}
+	}
+	
+	static Notify(msg) {
+		ToolTip(msg)
+		SetTimer(() => ToolTip(), FindWindow.NotifyDurationSec * (-1000))
+	}
+	
+	static ToPattern(str) {
+		str := StrReplace(str, "\", "\\")
+		str := StrReplace(str, ".", "\.")
+		str := StrReplace(str, "^", "\^")
+		str := StrReplace(str, "$", "\$")
+		str := StrReplace(str, ":", "\:")
+		str := StrReplace(str, "+", "\+")
+		str := StrReplace(str, "*", "\*")
+		str := StrReplace(str, "-", "\-")
+		str := StrReplace(str, ",", "\,")
+		str := StrReplace(str, "?", "\?")
+		str := StrReplace(str, "!", "\!")
+		str := StrReplace(str, "[", "\[")
+		str := StrReplace(str, "]", "\]")
+		str := StrReplace(str, "{", "\{")
+		str := StrReplace(str, "}", "\}")
+		return str
+	}
+	
+	static FindAndActivate(str) {
+		for _, window in FindWindow.Windows {
+			if (window.Title ~= "^" FindWindow.ToPattern(str)) {
+				FindWindow.Activate(window)
+				return true
+			}
+		}
+		
+		FindWindow.Notify("Window not found")
+		return false
+	}
+	
+	static Activate(window) {
+		WinActivate("ahk_id " window.Id)
+		FindWindow.Notify("Window found:`r`n  " window.Title)
+	}
+	
+	static Get(pattern) {
+		if (StrLen(pattern) = 0) {
+			return FindWindow.Windows
+		} else {
+			windows := []
+			
+			for _, window in FindWindow.Windows {
+				if window.Title ~= "^"  FindWindow.ToPattern(pattern) {
+					windows.Push(window)
+				}
+			}
+			
+			return windows
+		}
+	}
+	
+	class Suggestions {
+		__all := []
+		__index := 1
+		
+		__New(pattern) {
+			this.__all := FindWindow.Get(pattern)
+		}
+		
+		Next() {
+			this.__index := this.__index = this.__all.Length
+					? 1 : this.__index + 1
+					
+			return this.Current
+		}
+		
+		Prev() {
+			this.__index := this.__index = 1
+					? this.__all.Length
+					: this.__index - 1
+					
+			return this.Current
+		}
+		
+		All => this.__all
+		
+		Any => this.__all.Length > 0
+		
+		Current {
+			get {
+				return this.Any
+					? this.__all[this.__index]
+					: ""
+			}
+		}
+	}
+	
+	class Form {
+	
+		static Run(wait := false) {
+			if (not wait)
+				return FindWindow.Form.New()
+				
+			FindWindow.Form.New().__form.Wait()
+		}
+		
+		static RUNBOX_ITEM_HEIGHT => 25
+		
+		__form := ""
+		__suggestions := FindWindow.Suggestions.New("")
+		__prev_suggestion := ""
+		
+		TextChanged => this.Text != this.__prev_suggestion
+		
+		Text {
+			get => this.__form.Gui["Field"].Value
+			
+			set {
+				this.__form.Gui["Field"].Value := value
+				this.__prev_suggestion := value
+			}
+		}
+		
+		__New() {
+			this.__form := Form.New()
+			this.__form.Gui.SetFont("s" Form.READABLE_POINT)
+			this.__form.Gui.Add("Edit",
+				"xm    ym    w340 h" FindWindow.Form.RUNBOX_ITEM_HEIGHT " vField Background" Form.CtrlBGC " c" Form.NotifyColor)  ; Form.CtrlColors)
+				
+			confirm_button := this.__form.Gui.Add("Button",
+				"x+m   yp    w90  h" FindWindow.Form.RUNBOX_ITEM_HEIGHT, "&Go")
+				
+			cancel_button := this.__form.Gui.Add("Button",
+				"x+m   yp    w90  h" FindWindow.Form.RUNBOX_ITEM_HEIGHT, "Ca&ncel")
+				
+			hidden_button := this.__form.Gui.Add("Button",
+							"w0   h0   Hidden Default")
+							
+			confirm_button.OnEvent("Click", (*) => this.Submit())
+			hidden_button.OnEvent("Click", (*) => this.Submit())
+			cancel_button.OnEvent("Click", (*) => this.__form.Cancel())
+			
+			this.__form.MapKey("~PgUp", (*) => this.SuggestPrev())
+			this.__form.MapKey("~PgDn", (*) => this.SuggestNext())
+			
+			this.__form.Gui.Title := "Find Open Window"
+			this.__form.Gui.OnEvent("Close", (*) => this.__form.Cancel())
+			this.__form.Gui.OnEvent("Escape", (*) => this.__form.Cancel())
+			this.__form.Gui.Show()
+		}
+		
+		Submit() {
+			if (this.__form.HasFocus()) {
+				this.__form.Gui.Submit()
+				FindWindow.FindAndActivate(this.Text)
+				this.__form.Cancel()
+			}
+		}
+		
+		CurrentIsThisForm {
+			get {
+				return this.__suggestions.Current.Id = this.__form.Gui.Hwnd
+			}
+		}
+		
+		SuggestPrev() {
+			if (this.__form.HasFocus() and this.__form.Gui["Field"].Focused) {
+				if (not this.__suggestions.Any or this.TextChanged) {
+					this.__suggestions := FindWindow.Suggestions.New(this.Text)
+				}
+				
+				if (this.__suggestions.Any) {
+					this.__suggestions.Prev()
+					
+					if (this.CurrentIsThisForm) {
+						this.__suggestions.Prev()
+					}
+					
+					this.Text := this.__suggestions.Current.Title
+				}
+			}
+		}
+		
+		SuggestNext() {
+			if (this.__form.HasFocus() and this.__form.Gui["Field"].Focused) {
+				if (not this.__suggestions.Any or this.TextChanged) {
+					this.__suggestions := FindWindow.Suggestions.New(this.Text)
+					
+					if (this.__suggestions.Any) {
+						this.Text := this.__suggestions.Current.Title
+					}
+				} else {
+					this.__suggestions.Next()
+					
+					MsgBox(
+						"Current: " this.__suggestions.Current.Id
+						"`r`nThis: " this.__form.Gui.Hwnd
+					)
+					
+					if (this.CurrentIsThisForm) {
+						this.__suggestions.Next()
+					}
+					
+					this.Text := this.__suggestions.Current.Title
+				}
+			}
+		}
+	}
+}
