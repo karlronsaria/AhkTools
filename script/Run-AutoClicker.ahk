@@ -2,34 +2,26 @@
 ; --- Global Variables --- ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-__THRESHOLD := 0
+__DELAY := 0
 __STOP_COMBO := "^c"
-__IN_MESSAGE := "Auto-clicker on."
+__IN_MESSAGE := "Auto-clicker set to click LEFT every " __DELAY " milliseconds. Click OK to start. Press CTL + C to stop."
 __OUT_MESSAGE := "Auto-clicker off."
-
-;;;;;;;;;;;;;;;;;;;;;
-; --- Functions --- ;
-;;;;;;;;;;;;;;;;;;;;;
-
-ClickMouse() {
-	MouseClick, Left
-}
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ; --- Main Entry --- ;
 ;;;;;;;;;;;;;;;;;;;;;;
 
 Main() {
-	global
-	
-	MsgBox,,, %__IN_MESSAGE%, 7
-	CoordMode, Mouse, Screen
-	Hotkey, %__STOP_COMBO%, StopScript
-	
-	loop {
-		ClickMouse()
-		Sleep, __DELAY
-	}
+    global
+    
+    MsgBox,,, %__IN_MESSAGE%, 7
+    CoordMode, Mouse, Screen
+    Hotkey, %__STOP_COMBO%, StopScript
+    
+    loop {
+        MouseClick, Left
+        Sleep, __DELAY
+    }
 }
 
 Main()
@@ -40,6 +32,6 @@ Return
 ;;;;;;;;;;;;;;;;;;;;;;;
 
 StopScript:
-	MsgBox,,, %__OUT_MESSAGE%, 7
-	ExitApp
-	
+    MsgBox,,, %__OUT_MESSAGE%, 7
+    ExitApp
+    

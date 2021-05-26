@@ -47,7 +47,6 @@ not not 1
 not not 2
 ListVars
 ListVar
-A_AhkVersion
 "str".Count
 "str".HasProp("Count")
 ["what", "the"].HasProp("Count")
@@ -76,3 +75,17 @@ A_WorkingDir
 30 - 1
 "what".Length
 ["what", "the"].Length
+A_Version
+A_AhkVersion
+Run("Chrome.exe")
+[Run("chrome.exe", "127.0.0.1"), ExitApp()]
+[Run("chrome.exe 127.0.0.1"), ExitApp()]
+[Clipboard := "" ]
+[Clipboard := "the"]
+[A_Clipboard := "the"]
+[A_Clipboard := ""]
+[A_Clipboard := "2021_02_23_161235", ExitApp()]
+[A_Clipboard := "2021_02_23_161318", MsgBox("the"), ExitApp()]
+[A_Clipboard := "", ExitApp()]
+InputBox("what", "the")
+InputBox("what", "the").Value

@@ -5,7 +5,7 @@
 delay := 25
 n := 100
 
-progress := ProgressBar.New("Vertical", n)
+progress := ProgressBar("Vertical", n)
 
 loop (n) {
 	Sleep(delay)
@@ -17,7 +17,7 @@ Sleep(delay)
 ToolTip()
 progress.End()
 
-progress := ProgressList.New(n)
+progress := ProgressList(n)
 ; progress.StartDefault()
 
 loop files, "C:\note\*", "R" {
@@ -30,7 +30,7 @@ Sleep(delay)
 ToolTip()
 progress.End()
 
-progress := ProgressBar.New("Horizontal", n)
+progress := ProgressBar("Horizontal", n)
 
 loop (n) {
 	Sleep(delay)

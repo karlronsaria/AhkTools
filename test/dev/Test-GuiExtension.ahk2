@@ -1,11 +1,11 @@
 
 class Form extends Gui {
 	__New() {
-		return Gui.New()
+		return Gui()
 	}
 }
 
-what := Form.New()
+what := Form()
 what.Add("Edit", "w50 vMyEdit")
 what.Add("Button", "w46 vbtnCopy", "Copy")
 what.Show()

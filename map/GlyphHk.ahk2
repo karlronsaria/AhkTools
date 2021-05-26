@@ -4,9 +4,9 @@
 ; #Include %A_ScriptDir%\..\map\HkMap.ahk2
 
 class GlyphHk extends HkMap {
-    static AddGlyph(ByRef table, key, unic, result, help) {
+    static AddGlyph(&table, key, unic, result, help) {
         table[key] := [
-            "Hotstring: (" result ") " help,
+            "(" result ") " help,
             () => Monitor.SendUnicode(unic)
         ]
     }

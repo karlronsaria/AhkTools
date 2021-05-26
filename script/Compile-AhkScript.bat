@@ -17,8 +17,8 @@ SETLOCAL EnableDelayedExpansion
 :: * --- CONSTANTS --- *
 :: *********************
 
-SET "V1_COMPILER=C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe"
-SET "V2_COMPILER=C:\Program Files\AutoHotkey\v2\Compiler\Ahk2Exe.exe"
+SET "V1_COMPILER=%ProgramFiles%\AutoHotkey\Compiler\Ahk2Exe.exe"
+SET "V2_COMPILER=%ProgramFiles%\AutoHotkey\v2\Compiler\Ahk2Exe.exe"
 
 
 :: *********************
@@ -315,7 +315,7 @@ ECHO.    %~nx0 scriptname.ahk
 ECHO.    %~nx0 \scriptname.ahk
 ECHO.    %~nx0 C:\scripts\scriptname.ahk
 ECHO.    %~nx0 C:\scripts\scriptname.ahk /COMPILER_C:\scripts\Ahk2Exe.exe
-ECHO.    %~nx0 "C:\Program Files\AutoHotkey\Scripts\scriptname.ahk"
+ECHO.    %~nx0 "%ProgramFiles%\AutoHotkey\Scripts\scriptname.ahk"
 ECHO.    %~nx0 /F scriptname.ahk
 EXIT /B !errorlevel!
 

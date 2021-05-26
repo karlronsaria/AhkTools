@@ -47,13 +47,13 @@ class HkMap {
             
             if (rowNumber > 0)
 				return lv.GetText(rowNumber, 1)
-					. " - Hotstring: "
+					. " - "
 					. lv.GetText(rowNumber, 2)
         }
     }
 	
     RunListViewForm() {
-        myForm := Form.New()
+        myForm := Form()
         myForm.Gui.Title := "Hotstrings for " A_ScriptName
         
         lv := myForm.Gui.Add(

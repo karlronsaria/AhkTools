@@ -37,13 +37,13 @@ class Clips {
     }
     
     static NewDefault() {
-        return Clips.New(Clips.DefaultDllPath, Clips.DefaultDbPath)
+        return Clips(Clips.DefaultDllPath, Clips.DefaultDbPath)
     }
     
     __conn := ""
     
     __New(dllPath, dbPath) {
-        this.__conn := SQLiteDB.New(dllPath)
+        this.__conn := SQLiteDB(dllPath)
         
         if !this.__conn.OpenDB(dbPath)
         or !this.Run(Clips.Statements.Init())
@@ -74,7 +74,7 @@ class Clips {
     }
     
     Query(statement) {
-        return this.__conn.GetTable(statement, result) ? result : { Rows: [[""]] }
+        return this.__conn.GetTable(statement, &result) ? result : { Rows: [[""]] }
     }
     
     ShowError() {
@@ -131,9 +131,9 @@ class Clips {
         
         static Run(wait := false) {
             if (not wait)
-                return Clips.Form.New()
+                return Clips.Form()
                 
-            Clips.Form.New().__form.Wait()
+            Clips.Form().__form.Wait()
         }
         
         __form := ""
@@ -203,7 +203,7 @@ class Clips {
         }
         
         __New() {
-            this.__form := Form.New()
+            this.__form := Form()
             this.__form.SetMonospaceStyle()
             
             lv := this.__form.Gui.Add(
@@ -250,11 +250,15 @@ class Clips {
     
     class Hk extends HkMap {
         static __table := ""
+		
+		__New() {
+			; Do nothing lol
+		}
         
-        static AddTable(ByRef table) {
+        static AddTable(&table) {
         
             table["clips"] := [
-                "Hotstring: Open the table of clipboards for editing",
+                "Open the table of clipboards for editing",
                 () => Monitor.Override(() => Clips.Form.Run(true))
             ]
             
@@ -262,17 +266,17 @@ class Clips {
                 index := A_Index - 1
                 
                 table["get" index] := [
-                    "Hotstring: Copy to Windows Clipboard the item recorded in Clip " index,
+                    "Copy to Windows Clipboard the item recorded in Clip " index,
                     ((i) => Monitor.Override(() => Clips.ClipIfAny(i))).Bind(index)
                 ]
                 
                 table["set" index] := [
-                    "Hotstring: Record the content of Windows Clipboard to Clip " index,
+                    "Record the content of Windows Clipboard to Clip " index,
                     ((i) => Monitor.Override(() => Clips.SetIfAny(i))).Bind(index)
                 ]
                 
                 table["send" index] := [
-                    "Hotstring: Copy to Windows Clipboard the item recorded in Clip " index,
+                    "Copy to Windows Clipboard the item recorded in Clip " index,
                     ((i) => Monitor.Run(() => Clips.GetIfAny(i))).Bind(index)
                 ]
             }
@@ -280,7 +284,7 @@ class Clips {
     }
 }
 
-Clips.Hk.New().Main((t) => Clips.Hk.AddTable(t))
+(Clips.Hk)().Main((t) => Clips.Hk.AddTable(&t))
 
 :?:;clips;::
 :*?:;get0;::
@@ -314,5 +318,5 @@ Clips.Hk.New().Main((t) => Clips.Hk.AddTable(t))
 :*?:;send8;::
 :*?:;send9;::
 {
-    Clips.Hk.New().CallThisKey()
+    Clips.Hk().CallThisKey()
 }

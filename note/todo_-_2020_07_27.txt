@@ -25,3 +25,6 @@
 [ ] Fix: sum
 [ ] Feat: Hotstring attributes
 
+2021_04_12_231001
+
+[ ] Feat: math ↦ domain-image mapping symbol
