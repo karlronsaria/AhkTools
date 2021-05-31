@@ -1,4 +1,3 @@
-"what"
 (table := {what: "The"}) && table["what"]
 (table := {what: "The"}) && table.what
 (key := "what") && (table := {what: "The"}) && table.key
@@ -89,3 +88,4 @@ Run("Chrome.exe")
 [A_Clipboard := "", ExitApp()]
 InputBox("what", "the")
 InputBox("what", "the").Value
+"what"

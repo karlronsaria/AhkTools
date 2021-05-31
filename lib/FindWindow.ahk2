@@ -122,13 +122,13 @@ class FindWindow {
 			if (not wait)
 				return FindWindow.Form()
 				
-			FindWindow.Form().__form.Wait()
+			(FindWindow.Form)().__form.Wait()
 		}
 		
 		static RUNBOX_ITEM_HEIGHT => 25
 		
 		__form := ""
-		__suggestions := FindWindow.Suggestions("")
+		__suggestions := (FindWindow.Suggestions)("")
 		__prev_suggestion := ""
 		
 		TextChanged => this.Text != this.__prev_suggestion
