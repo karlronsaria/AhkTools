@@ -26,7 +26,7 @@ box("Clip 6", Clips[6])
 
 A_Clipboard := Clips[2]
 
-table := ComObjCreate("Scripting.Dictionary")
+table := ComObject("Scripting.Dictionary")
 
 Clips.Hk.AddTable(table)
 

@@ -11,7 +11,7 @@ class HkMap {
     
     __New() {
         if (not HkMap.__table)
-            HkMap.__table := ComObjCreate("Scripting.Dictionary")
+            HkMap.__table := ComObject("Scripting.Dictionary")
     }
     
     CallThisKey() {
