@@ -1,6 +1,5 @@
 #Requires AutoHotkey v2.0-
 
-; #Include %A_ScriptDir%\..\lib\Monitor.ahk2
 ; #Include %A_ScriptDir%\..\lib\Form.ahk2
 ; #Include %A_ScriptDir%\..\external\SQLiteDB.ahk2
 ; #Include %A_ScriptDir%\..\map\HkMap.ahk2
@@ -259,7 +258,7 @@ class Clips {
         
             table["clips"] := [
                 "Open the table of clipboards for editing",
-                () => Monitor.Override(() => Clips.Form.Run(true))
+                () => Clips.Form.Run(true)
             ]
             
             loop Clips.Count {
@@ -267,17 +266,17 @@ class Clips {
                 
                 table["get" index] := [
                     "Copy to Windows Clipboard the item recorded in Clip " index,
-                    ((i) => Monitor.Override(() => Clips.ClipIfAny(i))).Bind(index)
+                    ((i) => Clips.ClipIfAny(i)).Bind(index)
                 ]
                 
                 table["set" index] := [
                     "Record the content of Windows Clipboard to Clip " index,
-                    ((i) => Monitor.Override(() => Clips.SetIfAny(i))).Bind(index)
+                    ((i) => Clips.SetIfAny(i)).Bind(index)
                 ]
                 
                 table["send" index] := [
                     "Copy to Windows Clipboard the item recorded in Clip " index,
-                    ((i) => Monitor.Run(() => Clips.GetIfAny(i))).Bind(index)
+                    ((i) => Clips.GetIfAny(i)).Bind(index)
                 ]
             }
         }

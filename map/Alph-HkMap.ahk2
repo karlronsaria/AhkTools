@@ -1,6 +1,6 @@
 #Requires AutoHotkey v2.0-
 
-; #Include %A_ScriptDir%\..\lib\Monitor.ahk2
+; #Include %A_ScriptDir%\..\lib\Script.ahk2
 ; #Include %A_ScriptDir%\..\map\HkMap.ahk2
 ; #Include %A_ScriptDir%\..\map\GlyphHk.ahk2
 

@@ -1,5 +1,5 @@
 #Include %A_ScriptDir%\Debug.ahk2
-#Include %A_ScriptDir%\..\lib\Monitor.ahk2
+#Include %A_ScriptDir%\..\lib\Script.ahk2
 
 SendNotification("What", "the.")
-Monitor.RunAsAdmin(A_AhkPath, A_ScriptFullPath)
+Script.RunAsAdmin(A_AhkPath, A_ScriptFullPath)

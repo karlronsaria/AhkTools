@@ -1,6 +1,6 @@
 #Requires AutoHotkey v2.0-
 
-; #Include %A_ScriptDir%\..\lib\Monitor.ahk2
+; #Include %A_ScriptDir%\..\lib\Script.ahk2
 ; #Include %A_ScriptDir%\..\lib\Form.ahk2
 
 class HkMap {
@@ -15,7 +15,7 @@ class HkMap {
     }
     
     CallThisKey() {
-        return this.Call(Trim(Monitor.GetHotkeyName(A_ThisHotkey), HkMap.Delimiter))
+        return this.Call(Trim(Script.GetHotkeyName(A_ThisHotkey), HkMap.Delimiter))
     }
     
     Call(key) {
@@ -23,10 +23,10 @@ class HkMap {
     }
 	
 	CallWithoutHk(key) {
-		prev := Monitor.CheckHotkeyName
-		Monitor.SetHotkeyNameCheck(false)
+		prev := Script.CheckHotkeyName
+		Script.SetHotkeyNameCheck(false)
 		what := this.Call(key)
-		Monitor.SetHotkeyNameCheck(prev)
+		Script.SetHotkeyNameCheck(prev)
 		return what
 	}
     
@@ -108,7 +108,7 @@ class HkMap {
                 this.Call(A_Args[2])
             }
             
-            Monitor.Exit()
+            Script.Exit()
         }
     }
 }
