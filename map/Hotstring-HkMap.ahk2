@@ -240,12 +240,12 @@ class HotstringHk extends HkMap {
 
         table["titlecase"] := table["t"] := [
             "Replace with the title-case version of the clipboard string",
-            () => Strings.ToTitleCase(A_Clipboard)
+            () => Script.Send(Strings.ToTitleCase(A_Clipboard))
         ]
 
         table["randomcase"] := [
             "Replace with the random-case version of the clipboard string",
-            () => Strings.ToRandomCase(A_Clipboard)
+            () => Script.Send(Strings.ToRandomCase(A_Clipboard))
         ]
 
         table["iowercase"] := [
@@ -254,7 +254,7 @@ class HotstringHk extends HkMap {
             () => [
                 str := Strings.EscapeModifiers(A_Clipboard),
                 str := StrReplace(str, "l", "I")
-            ] && str
+            ] && Script.Send(str)
         ]
 
         table["iolocase"] := [
@@ -263,86 +263,86 @@ class HotstringHk extends HkMap {
             () => [
                 str := Strings.EscapeModifiers(A_Clipboard),
                 str := Strings.StrSwap(str, "l", "I")
-            ] && str
+            ] && Script.Send(str)
         ]
 
         table["tounix"] := [
             "Replace backslashes with slashes",
-            () => Strings.ToUnixString(A_Clipboard)
+            () => Script.Send(Strings.ToUnixString(A_Clipboard))
         ]
 
         table["todos"] := [
             "Replace slashes with backslashes",
-            () => Strings.ToDosString(A_Clipboard)
+            () => Script.Send(Strings.ToDosString(A_Clipboard))
         ]
 
         table["tojson"] := [
             "Replace backslashes with double-backslashes",
-            () => Strings.ToJsonString(A_Clipboard)
+            () => Script.Send(Strings.ToJsonString(A_Clipboard))
         ]
 
         table["tab2space"] := [
             "Replace all tabs with spaces on the clipboard",
-            () => Strings.ReplaceTabsShowingProgress(A_Clipboard, A_Space)
+            () => Script.Send(Strings.ReplaceTabsShowingProgress(A_Clipboard, A_Space))
         ]
 
         table["leadtab4"] := [
             "Replace all leading groups of 4 spaces with tabs on the "
             "clipboard",
-            () => Strings.ReplaceLeadingSpacesWithTabs(A_Clipboard, 4)
+            () => Script.Send(Strings.ReplaceLeadingSpacesWithTabs(A_Clipboard, 4))
         ]
 
         table["leadtab8"] := [
             "Replace all leading groups of 8 spaces with tabs on the "
             "clipboard",
-            () => Strings.ReplaceLeadingSpacesWithTabs(A_Clipboard, 8)
+            () => Script.Send(Strings.ReplaceLeadingSpacesWithTabs(A_Clipboard, 8))
         ]
 
         table["snake"] := [
             "Replace all tabs with underscores on the clipboard",
-            () => Strings.ReplaceTabsAndSpacesShowingProgress(A_Clipboard, "_")
+            () => Script.Send(Strings.ReplaceTabsAndSpacesShowingProgress(A_Clipboard, "_"))
         ]
 
         table["pyval"] := [
             "Replace with a python evaluation of the content on the "
             "clipboard `r`n`r`nImports: `r`n`r`n" Strings.PyvalImports,
-            () => Strings.PythonEvaluateClipboard()
+            () => Script.Send(Strings.PythonEvaluateClipboard())
         ]
 
         table["block"] := [
             "Add word-wrapped line breaks to text on the clipboard;`r`n"
             "(default tab size is 4)",
-            () => Strings.PasteBlockText(A_Clipboard, HotstringHk.TAB_SIZE, HotstringHk.NOTE_WIDTH)
+            () => Script.Send(Strings.PasteBlockText(A_Clipboard, HotstringHk.TAB_SIZE, HotstringHk.NOTE_WIDTH))
         ]
 
         table["block_tab4"] := [
             "Add word-wrapped line breaks to text on the clipboard;`r`n"
             "(make sure the tab size is 4)",
-            () => Strings.PasteBlockText(A_Clipboard, 4, HotstringHk.NOTE_WIDTH)
+            () => Script.Send(Strings.PasteBlockText(A_Clipboard, 4, HotstringHk.NOTE_WIDTH))
         ]
 
         table["block_tab8"] := [
             "Add word-wrapped line breaks to text on the clipboard;`r`n"
             "(make sure the tab size is 8)",
-            () => Strings.PasteBlockText(A_Clipboard, 8, HotstringHk.NOTE_WIDTH)
+            () => Script.Send(Strings.PasteBlockText(A_Clipboard, 8, HotstringHk.NOTE_WIDTH))
         ]
 
         table["condense"] := [
             "Combine consecutive lines of content to a single line "
             "on the clipboard;`r`n(default tab size is 4)",
-            () => Strings.PasteCondensedBlockText(A_Clipboard, HotstringHk.TAB_SIZE, HotstringHk.NOTE_WIDTH)
+            () => Script.Send(Strings.PasteCondensedBlockText(A_Clipboard, HotstringHk.TAB_SIZE, HotstringHk.NOTE_WIDTH))
         ]
 
         table["condense_tab4"] := [
             "Combine consecutive lines of content to a single line "
             "on the clipboard;`r`n(make sure the tab size is 4)",
-            () => Strings.PasteCondensedBlockText(A_Clipboard, 4, HotstringHk.NOTE_WIDTH)
+            () => Script.Send(Strings.PasteCondensedBlockText(A_Clipboard, 4, HotstringHk.NOTE_WIDTH))
         ]
 
         table["condense_tab8"] := [
             "Combine consecutive lines of content to a single line "
             "on the clipboard;`r`n(make sure the tab size is 8)",
-            () => Strings.PasteCondensedBlockText(A_Clipboard, 8, HotstringHk.NOTE_WIDTH)
+            () => Script.Send(Strings.PasteCondensedBlockText(A_Clipboard, 8, HotstringHk.NOTE_WIDTH))
         ]
 
         table["last"] := [
@@ -353,87 +353,97 @@ class HotstringHk extends HkMap {
 
         table["top"] := [
             "Replace with the device ID of the last local fixed disk drive",
-            () => Commands.GetLogicalDiskId(3, 0)
+            () => Script.Send(Commands.GetLogicalDiskId(3, 0))
         ]
 
         table["rem"] := [
             "Replace with the device ID of the first removable disk drive",
-            () => Commands.GetLogicalDiskId(2, 1)
+            () => Script.Send(Commands.GetLogicalDiskId(2, 1))
         ]
 
         table["date"] := [
             "Replace with current date "
             "in standard `"" Dates.DateFormat "`" format",
-            () => Dates.GetStdDate()
+            () => Script.Send(Dates.GetStdDate())
         ]
 
         table["prettydate"] := [
             "Replace with current date "
             "in pretty `"" Dates.DatePrettyFormat "`" format",
-            () => Dates.GetPrettyDate()
+            () => Script.Send(Dates.GetPrettyDate())
         ]
 
         table["time"] := [
             "Replace with current time",
-            () => Dates.GetStdTime()
+            () => Script.Send(Dates.GetStdTime())
         ]
 
         table["prettytime"] := [
             "Replace with current time "
             "in pretty `"" Dates.TimePrettyFormat "`" format",
-            () => Dates.GetPrettyTime()
+            () => Script.Send(Dates.GetPrettyTime())
         ]
 
         table["datetime"] := [
             "Replace with current date and time",
-            () => Dates.GetDateAndTime()
+            () => Script.Send(Dates.GetDateAndTime())
         ]
 
         table["title"] := [
             "Replace with a title-corrected string from the Clipboard",
-            () => Strings.GetSubtitle(
-                A_Clipboard,
-                HotstringHk.SECND_SEPARATOR
+            () => Script.Send(
+                Strings.GetSubtitle(
+                    A_Clipboard,
+                    HotstringHk.SECND_SEPARATOR
+                )
             )
         ]
 
         table["d_title"] := [
             "Replace with current date and title string",
-            () => Strings.GetTitle(
-                Dates.GetStdDate(),
-                A_Clipboard,
-                "_",
-                HotstringHk.SECND_SEPARATOR
+            () => Script.Send(
+                Strings.GetTitle(
+                    Dates.GetStdDate(),
+                    A_Clipboard,
+                    "_",
+                    HotstringHk.SECND_SEPARATOR
+                )
             )
         ]
 
         table["dt_title"] := [
             "Replace with current date and time and title string",
-            () => Strings.GetTitle(
-                Dates.GetDateAndTime(),
-                A_Clipboard,
-                "_",
-                HotstringHk.SECND_SEPARATOR
+            () => Script.Send(
+                Strings.GetTitle(
+                    Dates.GetDateAndTime(),
+                    A_Clipboard,
+                    "_",
+                    HotstringHk.SECND_SEPARATOR
+                )
             )
         ]
 
         table["d_-_title"] := [
             "Replace with current date and title string",
-            () => Strings.GetTitle(
-                Dates.GetStdDate(),
-                A_Clipboard,
-                "_-_",
-                HotstringHk.SECND_SEPARATOR
+            () => Script.Send(
+                Strings.GetTitle(
+                    Dates.GetStdDate(),
+                    A_Clipboard,
+                    "_-_",
+                    HotstringHk.SECND_SEPARATOR
+                )
             )
         ]
 
         table["dt_-_title"] := [
             "Replace with current date and time and title string",
-            () => Strings.GetTitle(
-                Dates.GetDateAndTime(),
-                A_Clipboard,
-                "_-_",
-                HotstringHk.SECND_SEPARATOR
+            () => Script.Send(
+                Strings.GetTitle(
+                    Dates.GetDateAndTime(),
+                    A_Clipboard,
+                    "_-_",
+                    HotstringHk.SECND_SEPARATOR
+                )
             )
         ]
 
