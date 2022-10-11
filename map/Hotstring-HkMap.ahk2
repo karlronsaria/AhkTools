@@ -451,12 +451,12 @@ class HotstringHk extends HkMap {
 
             table["last" value.short] := table["l" value.short] := [
                 "Replace with last " value.long "'s date",
-                ((i) => Dates.GetLastDate(i)).Bind(index)
+                ((i) => Script.Send(Dates.GetLastDate(i))).Bind(index)
             ]
 
             table["next" value.short] := table["n" value.short] := [
                 "Replace with next " value.long "'s date",
-                ((i) => Dates.GetNextDate(i)).Bind(index)
+                ((i) => Script.Send(Dates.GetNextDate(i))).Bind(index)
             ]
         }
     }
