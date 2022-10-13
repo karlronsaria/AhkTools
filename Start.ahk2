@@ -34,3 +34,4 @@ Script.RunScriptAsAdmin(A_ScriptFullPath)
 #Include %A_ScriptDir%\map\Hotstring-HkMap.ahk2
 #Include %A_ScriptDir%\map\Math-HkMap.ahk2
 #Include %A_ScriptDir%\map\Web-HkMap.ahk2
+#Include %A_ScriptDir%\map\Copypasta-HkMap.ahk2
