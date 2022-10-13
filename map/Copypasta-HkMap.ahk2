@@ -4,22 +4,30 @@
 ; #Include %A_ScriptDir%\..\map\HkMap.ahk2
 
 class CopypastaHk extends HkMap {
-    static UmSweaty =>
-        "Umm, sweaty? I just spent three hours combing through all of your "
-        . "social media accounts from the past two years, and oof, that's a "
-        . "yikes from me. I literally can't even right now. Oh you seet "
-        . "summer child, you do realise you're making me lose all faith "
-        . "in humanity? I'm literally shaking rn. Let's unpack this. "
-        . "It's almost as if maybe, just maybe your toxic problematic "
-        . "behaviour toward women and poc is because someone hurt you. "
-        . "Just shut up and listen. It's called being a decent human "
-        . "being, and as a white male, YOU ARE NOT WELCOME "
-        . "HERE.`r`nLet that sink in."
+    static ResourcePath =>
+        ".\res\copypasta"
+
+    static Read(filePath) {
+        file := FileOpen(filePath, "r")
+        cat := ""
+
+        while not file.AtEOF {
+            cat .= file.ReadLine() . "`n"
+        }
+
+        file.Close()
+        return cat
+    }
+
+    static ReadPasta(filePath) {
+        return CopypastaHk.Read(CopypastaHk.ResourcePath . "\" . filePath)
+    }
+
     static AddTable(&table) {
         table["sweaty"] := [
             "Umm, sweaty? I just spent three hours combing through all of "
             . "your social media accounts from the past two years",
-            () => Script.Send(CopypastaHk.UmSweaty)
+            () => Script.Send(CopypastaHk.ReadPasta("UmSweaty.txt"))
         ]
     }
 }
