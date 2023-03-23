@@ -89,3 +89,5 @@ Run("Chrome.exe")
 InputBox("what", "the")
 InputBox("what", "the").Value
 "what"
+4 * "a"
+"a" * 4

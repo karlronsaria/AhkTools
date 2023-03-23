@@ -1,0 +1,8 @@
+#Requires AutoHotkey v2.0-
+
+; #Include %A_ScriptDir%\..\map\FindWindow.ahk2
+; #Include %A_ScriptDir%\..\map\HkMap.ahk2
+
+class MyDrawingboard extends HkMap {
+
+}

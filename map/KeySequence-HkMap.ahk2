@@ -1,0 +1,96 @@
+#Requires AutoHotkey v2.0-
+
+; #Include %A_ScriptDir%\..\lib\Script.ahk2
+; #Include %A_ScriptDir%\..\map\HkMap.ahk2
+
+class KeySequenceHk extends HkMap {
+    static TabSize => 2
+
+    static GetMarkdownToSlackSequence(markdown) {
+        lines := StrSplit(markdown, "`r`n")
+        prevLevel := 0
+        seq := ""
+        isList := false
+
+        for _, line in lines {
+            level := 0
+
+            if line ~= "^\s*$"
+                continue
+
+            if not (line ~= "^\s*-\s") {
+                if isList {
+                    seq .= "^+8"
+                    isList := false
+                }
+
+                seq .= line . "+{Enter}"
+                continue
+            }
+
+            if not isList {
+                seq .= "^+8"
+                isList := true
+            }
+
+            spaceLen := 0
+
+            loop parse (line) {
+                if (A_LoopField != A_Space)
+                    break
+
+                spaceLen := spaceLen + 1
+            }
+
+            seq .= RegExReplace(line, "^\s*-\s*", "")
+            level := spaceLen / KeySequenceHk.TabSize
+            diff := level - prevLevel
+
+            if diff != 0 {
+                seq .= "+{Home}"
+            }
+
+            index := diff
+
+            while index < 0 {
+                seq .= "+{Tab}"
+                index := index + 1
+            }
+
+            while index > 0 {
+                seq .= "{Tab}"
+                index := index - 1
+            }
+
+            if diff != 0 {
+                seq .= "{End}"
+            }
+
+            seq .= "+{Enter}"
+            prevLevel := level
+        }
+
+        if isList {
+            seq .= "^+8"
+        }
+
+        return seq
+    }
+
+    static AddTable(&table) {
+        table["md-to-slack"] := [
+            "Convert a Markdown tree on the Clipboard "
+            "to a post sequence on Slack",
+            () => Script.Send(
+                KeySequenceHk.GetMarkdownToSlackSequence(A_Clipboard)
+            )
+        ]
+    }
+}
+
+KeySequenceHk().Main((t) => KeySequenceHk.AddTable(&t))
+
+:*?:;md-to-slack;::
+{
+    KeySequenceHk().CallThisKey()
+}
