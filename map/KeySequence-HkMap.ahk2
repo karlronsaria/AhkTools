@@ -6,7 +6,7 @@
 class KeySequenceHk extends HkMap {
     static TabSize => 2
 
-    static GetMarkdownToSlackSequence(markdown) {
+    static GetMarkdownToSlackSequence(markdown, doubleSpace := true) {
         lines := StrSplit(markdown, "`r`n")
         prevLevel := 0
         seq := ""
@@ -42,8 +42,13 @@ class KeySequenceHk extends HkMap {
                 spaceLen := spaceLen + 1
             }
 
-            seq .= RegExReplace(line, "^\s*-\s*", "")
             level := spaceLen / KeySequenceHk.TabSize
+
+            if doubleSpace and level = 0 {
+                seq .= "+{Enter}+{Enter}^+8"
+            }
+
+            seq .= RegExReplace(line, "^\s*-\s*", "")
             diff := level - prevLevel
 
             if diff != 0 {
@@ -82,7 +87,10 @@ class KeySequenceHk extends HkMap {
             "Convert a Markdown tree on the Clipboard "
             "to a post sequence on Slack",
             () => Script.Send(
-                KeySequenceHk.GetMarkdownToSlackSequence(A_Clipboard)
+                KeySequenceHk.GetMarkdownToSlackSequence(
+                    A_Clipboard,
+                    true  ; doubleSpace
+                )
             )
         ]
     }
