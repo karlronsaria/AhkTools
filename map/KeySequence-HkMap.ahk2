@@ -85,7 +85,12 @@ class KeySequenceHk extends HkMap {
     static AddTable(&table) {
         table["md-to-slack"] := [
             "Convert a Markdown tree on the Clipboard "
-            "to a post sequence on Slack",
+            "to a message post sequence on Slack. "
+            "Note: Only works when the length of each "
+            "line does not cause word wrap. To avoid "
+            "this, limit the length of each line, and "
+            "zoom out as much as possible in the "
+            "Slack app in order to shrink the text.",
             () => Script.Send(
                 KeySequenceHk.GetMarkdownToSlackSequence(
                     A_Clipboard,
