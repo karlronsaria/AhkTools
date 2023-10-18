@@ -91,3 +91,7 @@ InputBox("what", "the").Value
 "what"
 4 * "a"
 "a" * 4
+RegExReplace("Philippe Lhoste", "^(\w{3})\w*\s+\b(\w{3})\w*$", "$1$2")
+send("{{}")
+send("C:\Program Files\WindowsApps\Microsoft.WindowsTerminal_1.17.11461.0_x64__8wekyb3d8bbwe\ProfileIcons\{0caa0dad-35be-5f56-a8ff-afceeeaa6101}.scale-100.png")
+send("C:\Program Files\WindowsApps\Microsoft.WindowsTerminal_1.17.11461.0_x64__8wekyb3d8bbwe\ProfileIcons\{{}0caa0dad-35be-5f56-a8ff-afceeeaa6101{}}.scale-100.png")
