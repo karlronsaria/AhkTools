@@ -464,8 +464,10 @@ class HotstringHk extends HkMap {
 
 HotstringHk().Main((t) => HotstringHk.AddTable(&t))
 
-:?:;stop;::
-:?:;start;::
+; ; (karlr 2024_09_13_005411): removed
+; :?:;stop;::
+; :?:;start;::
+
 :?:;kill;::
 :?:;reload;::
 :?:;panic;::
