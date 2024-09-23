@@ -459,6 +459,19 @@ class HotstringHk extends HkMap {
                 ((i) => Script.Send(Dates.GetNextDate(i))).Bind(index)
             ]
         }
+
+        ; (karlr 2024_09_23)
+        table["yesterday"] := [
+            "Replace with yesterday's date",
+            () => Script.Send(Dates.GetDateAdd(-1))
+        ]
+
+        table["today"] := table["date"]
+
+        table["tomorrow"] := [
+            "Replace with tomorrow's date",
+            () => Script.Send(Dates.GetDateAdd(1))
+        ]
     }
 }
 
@@ -548,6 +561,9 @@ HotstringHk().Main((t) => HotstringHk.AddTable(&t))
 :*?:;nFri;::
 :*?:;nextSat;::
 :*?:;nSat;::
+:*?:;yesterday;::
+:*?:;today;::
+:*?:;tomorrow;::
 {
     HotstringHk().CallThisKey()
 }
