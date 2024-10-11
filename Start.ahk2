@@ -36,6 +36,7 @@ Script.RunScriptAsAdmin(A_ScriptFullPath)
 #Include %A_ScriptDir%\map\Web-HkMap.ahk2
 #Include %A_ScriptDir%\map\Copypasta-HkMap.ahk2
 #Include %A_ScriptDir%\map\KeySequence-HkMap.ahk2
+#Include %A_ScriptDir%\map\DrawBox-HkMap.ahk2
 
 ; Drawingboard
 ;;;;;;;;;;;;;;

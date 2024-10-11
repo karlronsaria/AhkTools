@@ -18,6 +18,10 @@ class HkMap {
         return this.Call(Trim(Script.GetHotkeyName(A_ThisHotkey), HkMap.Delimiter))
     }
     
+    CallThisKey_NoDelim() {
+        return this.Call(Script.GetHotkeyName(A_ThisHotkey))
+    }
+    
     Call(key) {
         return HkMap.__table[key][2].Call()
     }

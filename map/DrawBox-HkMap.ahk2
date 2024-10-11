@@ -1,0 +1,117 @@
+#Requires AutoHotkey v2.0-
+
+; #Include %A_ScriptDir%\..\lib\Script.ahk2
+; #Include %A_ScriptDir%\..\map\HkMap.ahk2
+
+class DrawBoxHk extends HkMap {
+    static _is_active := false
+    static _index := 1
+
+    static TOOLTIP_DURATION_MS => 2000
+
+    static CHARSETS => [
+        [
+            '└', '─', '┘', '│', ' ', '│', '┌', '─', '┐'
+        ],
+
+        [
+            '└', '┴', '┘', '├', '┼', '┤', '┌', '┬', '┐'
+        ],
+
+        [
+            '╚', '═', '╝', '║', ' ', '║', '╔', '═', '╗'
+        ],
+
+        [
+            '╚', '╩', '╝', '╠', '╬', '╣', '╔', '╦', '╗'
+        ],
+
+        [
+            '╰', '─', '╯', '│', ' ', '│', '╭', '─', '╮'
+        ]
+    ]
+
+    static Active => DrawBoxHk._is_active
+    static Charset => DrawBoxHk.CHARSETS[DrawBoxHk._index]
+
+    static NextCharset() {
+        DrawBoxHk._index := DrawBoxHk._index == DrawBoxHk.CHARSETS.Length
+            ? 1
+            : DrawBoxHk._index + 1
+
+        msg := "DrawBoxHk: Moved to charset:`n"
+        msg .= DrawBoxHk.CharsetToString(DrawBoxHk.Charset)
+
+        ToolTip(msg)
+        SetTimer(() => ToolTip(), -DrawBoxHk.TOOLTIP_DURATION_MS)
+    }
+
+    static CharsetToString(charset) {
+        str := ""
+        str .= "`n`t" . charset[7] "`t" charset[8] "`t" charset[9]
+        str .= "`n`t" . charset[4] "`t" charset[5] "`t" charset[6]
+        str .= "`n`t" . charset[1] "`t" charset[2] "`t" charset[3]
+        return str
+    }
+
+    static Toggle() {
+        DrawBoxHk._is_active := !DrawBoxHk._is_active
+        msgTitle := "DrawBoxHk"
+
+        msg := "DrawBoxHk: Box-drawing keys are now "
+        msg .= DrawBoxHk.Active ? "active." : "inactive."
+
+        if (DrawBoxHk.Active) {
+            msg .= "`n" DrawBoxHk.CharsetToString(DrawBoxHk.Charset)
+        }
+
+        ToolTip(msg)
+        SetTimer(() => ToolTip(), -DrawBoxHk.TOOLTIP_DURATION_MS)
+    }
+
+    static AddTable(&table) {
+        table["drawbox"] := [
+            "Toggle Box-drawing Mode for the number keys",
+            () => DrawBoxHk.Toggle()
+        ]
+
+        table["nextbox"] := [
+            "Cycle box-drawing character sets",
+            () => DrawBoxHk.NextCharset()
+        ]
+
+        for (index, value in DrawBoxHk.Charset) {
+            table["" index] := [
+                "Replace with the '" value "' box-drawing character",
+                ((i) => Script.Send(DrawBoxHk.Active
+                    ? DrawBoxHk.Charset[i]
+                    : ("" i))
+                ).Bind(index)
+            ]
+
+            index++
+        }
+    }
+}
+
+DrawBoxHk().Main((t) => DrawBoxHk.AddTable(&t))
+
+:*?:;drawbox;::
+:*?:;nextbox;::
+{
+    DrawBoxHk().CallThisKey()
+}
+
+:*?:1::
+:*?:2::
+:*?:3::
+:*?:4::
+:*?:5::
+:*?:6::
+:*?:7::
+:*?:8::
+:*?:9::
+{
+    DrawBoxHk().CallThisKey_NoDelim()
+}
+
