@@ -45,6 +45,13 @@ class HotstringHk extends HkMap {
     static TAB_SIZE => 4
     static NOTE_WIDTH => 69 ; 85
 
+    static NotifyDurationSec => 3
+
+    static Notify(msg) {
+        ToolTip(msg)
+        SetTimer(() => ToolTip(), FindWindow.NotifyDurationSec * (-1000))
+    }
+
     ; As of 2020_03_28
     static BROWSER_PROCESS_NAMES => [
         "chrome.exe"
@@ -353,12 +360,26 @@ class HotstringHk extends HkMap {
 
         table["top"] := [
             "Replace with the device ID of the last local fixed disk drive",
-            () => Script.Send(Commands.GetLogicalDiskId(3, 0))
+            () => [
+                useOther := "rem",
+                Script.Send(Commands.GetLogicalDiskId(3, 0)),
+                HotstringHk.Notify(
+                    "Gets a fixed disk drive (i.e. `"C:`")`r`n"
+                    "To get a removable drive, use '" useOther "'"
+                )
+            ]
         ]
 
         table["rem"] := [
             "Replace with the device ID of the first removable disk drive",
-            () => Script.Send(Commands.GetLogicalDiskId(2, 1))
+            () => [
+                useOther := "top",
+                Script.Send(Commands.GetLogicalDiskId(2, 1)),
+                HotstringHk.Notify(
+                    "Gets a removable drive (i.e. `"D:`")`r`n"
+                    "To get a fixed disk drive, use '" useOther "'"
+                )
+            ]
         ]
 
         table["date"] := [
