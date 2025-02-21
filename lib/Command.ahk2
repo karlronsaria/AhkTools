@@ -50,7 +50,7 @@ class Commands {
     
     static GetLatestDatedItemName(items) {
         for item in items
-            if RegExMatch(item.Path, "\d{4}_\d{2}_\d{2}(_\d{6})?(?=[^\\]*$)", &match)
+            if RegExMatch(item.Path, "\d{4}-\d{2}-\d{2}(-\d{6})?(?=[^\\]*$)", &match) ; Uses DateTimeFormat
                 return item.Path
                 
         return ""

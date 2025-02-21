@@ -17,12 +17,12 @@ __hotstrings_file := A_ComputerName ~= "LIM\d{3}-\d{3}" ? "Master.exe" : "Master
 ;;;;;;;;;;;;;;;;;;;;;
 
 GetDate() {
-    FormatTime dateString,, yyyy_MM_dd
+    FormatTime dateString,, yyyy-MM-dd ; Uses DateTimeFormat
     return dateString
 }
 
 GetDateTimeString() {
-    FormatTime dateString,, yyyy_MM_dd_HHmmss
+    FormatTime dateString,, yyyy-MM-dd-HHmmss ; Uses DateTimeFormat
     return dateString
 }
 
@@ -31,7 +31,7 @@ GetWorkingDrive() {
 }
 
 NewWorkstation() {
-    ; ; OLD (2019_09_26)
+    ; ; OLD (2019-09-26)
 	; ; To avoid data loss, I'm moving away naming folders using just the date stamp.
 	; 
 	; date := GetDate()

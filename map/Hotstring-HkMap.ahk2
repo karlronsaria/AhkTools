@@ -24,7 +24,7 @@
 ;    https://superuser.com/users/100787/iglvzx
 ;
 ; Retrieved:
-;    2020_06_24
+;    2020-06-24
 
 #Space::
 {
@@ -34,7 +34,7 @@
     }
 }
 
-; ; DISABLED: 2020_06_24
+; ; DISABLED: 2020-06-24
 ; 
 ; ; Hotkey: Oh this? Just a little, *experiment*.
 ; >!RCtrl::AppsKey
@@ -52,7 +52,7 @@ class HotstringHk extends HkMap {
         SetTimer(() => ToolTip(), FindWindow.NotifyDurationSec * (-1000))
     }
 
-    ; As of 2020_03_28
+    ; As of 2020-03-28
     static BROWSER_PROCESS_NAMES => [
         "chrome.exe"
       , "firefox.exe"
@@ -73,14 +73,14 @@ class HotstringHk extends HkMap {
 
     static ExplorerPreviewPane() {
         if (WinActive("ahk_class CabinetWClass")) {  ; Windows Explorer
-            SendNotification("Deprecated - 2020_07_02", "Use Alt + P")
+            SendNotification("Deprecated - 2020-07-02", "Use Alt + P")
             Commands.TogglePaneInExplorer("p")
         }
     }
 
     static ExplorerDetailsPane() {
         if (WinActive("ahk_class CabinetWClass")) { ; Windows Explorer
-            SendNotification("Deprecated - 2020_07_02", "Use Alt + Shft + P")
+            SendNotification("Deprecated - 2020-07-02", "Use Alt + Shft + P")
             Commands.TogglePaneInExplorer("d")
         }
     }
@@ -481,7 +481,7 @@ class HotstringHk extends HkMap {
             ]
         }
 
-        ; (karlr 2024_09_23)
+        ; (karlr 2024-09-23)
         table["yesterday"] := [
             "Replace with yesterday's date",
             () => Script.Send(Dates.GetDateAdd(-1))
@@ -494,7 +494,7 @@ class HotstringHk extends HkMap {
             () => Script.Send(Dates.GetDateAdd(1))
         ]
 
-        ; (karlr 2024_10_21)
+        ; (karlr 2024-10-21)
         table["y"] := [
             "Replace with ☝️😊",
             () => Script.Send("☝️😊")
@@ -509,7 +509,7 @@ class HotstringHk extends HkMap {
 
 HotstringHk().Main((t) => HotstringHk.AddTable(&t))
 
-; ; (karlr 2024_09_13_005411): removed
+; ; (karlr 2024-09-13-005411): removed
 ; :?:;stop;::
 ; :?:;start;::
 

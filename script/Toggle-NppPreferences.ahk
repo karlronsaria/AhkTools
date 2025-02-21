@@ -2,7 +2,7 @@
 ;    https://superuser.com/questions/1049609/search-in-autohotkey-for-a-window-title-that-contains-a-string-but-does-not-con
 ;    
 ; Accessed:
-;    2019_10_23
+;    2019-10-23
 ;    
 ; Requires:
 ;    Notepad++
@@ -79,7 +79,7 @@ SendKeyStrokes() {
     ; Confirm and close Preferences
     SendInput {HOME}{ESCAPE}
     
-    ; ; OLD (2019_09_23)
+    ; ; OLD (2019-09-23)
     ; ; The Escape key has the same effect while leaving item list cursor in a position
     ; ; that makes this script iterable.
     ; 

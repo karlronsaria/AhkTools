@@ -3,7 +3,7 @@
 ;    https://www.autohotkey.com/boards/memberlist.php?mode=viewprofile&u=77
 ;    
 ; Retrieved:
-;    2020_05_02
+;    2020-05-02
 
 ;;;;;;;;;;;;;;;;;;;;
 ; --- Function --- ;

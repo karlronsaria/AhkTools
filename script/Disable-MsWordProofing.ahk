@@ -2,7 +2,7 @@
 ;    https://superuser.com/questions/1049609/search-in-autohotkey-for-a-window-title-that-contains-a-string-but-does-not-con
 ;    
 ; Accessed:
-;    2019_10_23
+;    2019-10-23
 ;    
 ; Requires:
 ;    Microsoft Word

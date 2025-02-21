@@ -1,4 +1,4 @@
-2020_07_27_105610
+2020-07-27-105610
 
 [x] Feat: ListAuto (working name)
 
@@ -20,11 +20,11 @@
 [ ] Fix: Rename 'Monitor.ahk2', `Monitor`
 [ ] Fix: Rename 'RunBox.ahk2', `RunBox`
 
-2020_08_05_180053
+2020-08-05-180053
 
 [ ] Fix: sum
 [ ] Feat: Hotstring attributes
 
-2021_04_12_231001
+2021-04-12-231001
 
 [ ] Feat: math ↦ domain-image mapping symbol

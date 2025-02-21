@@ -83,8 +83,8 @@ Run("Chrome.exe")
 [Clipboard := "the"]
 [A_Clipboard := "the"]
 [A_Clipboard := ""]
-[A_Clipboard := "2021_02_23_161235", ExitApp()]
-[A_Clipboard := "2021_02_23_161318", MsgBox("the"), ExitApp()]
+[A_Clipboard := "2021-02-23-161235", ExitApp()]
+[A_Clipboard := "2021-02-23-161318", MsgBox("the"), ExitApp()]
 [A_Clipboard := "", ExitApp()]
 InputBox("what", "the")
 InputBox("what", "the").Value

@@ -2,7 +2,7 @@
 Source:
    https://www.autohotkey.com/boards/viewtopic.php?t=3329
 Retrieved:
-   2020_07_25
+   2020-07-25
    
 Hotstring(
     trigger:

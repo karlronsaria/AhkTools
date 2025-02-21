@@ -480,7 +480,7 @@ Main(infile, outfile) {
     
     ; I actually don't necessarily want this line, since I plan on compiling many files together.
     ; 
-    ;    2019_10_25: I disagree.
+    ;    2019-10-25: I disagree.
     
     out.WriteLine("if (!" MAP_NAME ") {`r`n`t" MAP_NAME " := ComObjCreate(""Scripting.Dictionary"")`r`n}")
     out.WriteLine("if (!" HELP_NAME ") {`r`n`t" HELP_NAME " := ComObjCreate(""Scripting.Dictionary"")`r`n}")

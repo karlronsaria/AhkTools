@@ -528,7 +528,7 @@ Class SQLiteDB {
    ; CONSTRUCTOR __New
    ; ===================================================================================================================
    __New(dllPath) {
-      This.SQLiteDLL := dllPath         ; adaniels (2020_07_29): I have to add this     (String)
+      This.SQLiteDLL := dllPath         ; adaniels (2020-07-29): I have to add this     (String)
                                         ;    because including this file breaks the
                                         ;    working directory.
       This._Path := ""                  ; Database path                                 (String)
@@ -592,7 +592,7 @@ Class SQLiteDB {
    ; ===================================================================================================================
    _ErrMsg() {
       If (RC := DllCall("SQLite3.dll\sqlite3_errmsg", "Ptr", This._Handle, "Cdecl UPtr"))
-         Return StrGet(StrPtr("" . RC), "UTF-8")  ; adaniels (2020_08_01): Need to concatenate with empty string in
+         Return StrGet(StrPtr("" . RC), "UTF-8")  ; adaniels (2020-08-01): Need to concatenate with empty string in
                                                   ;    case `sqlite3_errmsg` returns a non-string.
       Return ""
    }
