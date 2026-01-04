@@ -59,6 +59,8 @@ class HotstringHk extends HkMap {
       , "MicrosoftEdge.exe"
       , "iexplore.exe"
       , "brave.exe"
+      , "librewolf.exe"
+      , "arc.exe"
     ]
 
     static DAY_NAMES => [
